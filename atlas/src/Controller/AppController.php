@@ -39,4 +39,9 @@ class AppController extends Controller
         parent::initialize();
         $this->loadComponent('Flash');
     }
+
+    public function return_json($data) {
+        $this->set('data', $data);
+        $this->set('_serialize','data');
+    }
 }
