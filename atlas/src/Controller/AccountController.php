@@ -20,6 +20,8 @@ class AccountController extends AppController {
         parent::initialize();
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Soteira');
+
+        $this->Soteira->addPrivates(['private_action']);
     }
 
     public function create_admin() {
@@ -39,7 +41,8 @@ class AccountController extends AppController {
 
     	$result = array(
     		'input' => $admin,
-    		'output' => $usersTable->get(1)
+    		'output' => $usersTable->get(1),
+            'auth' => $this->request->header('Token')
     	);
 
     	$this->return_json($result);
@@ -74,6 +77,12 @@ class AccountController extends AppController {
 
     public function logout() {
 
+    }
+
+    public function private_action() {
+        $this->return_json(array(
+            'message' => 'This is a private action'
+        ));
     }
 }
 

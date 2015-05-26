@@ -5,7 +5,7 @@ namespace App\Controller\Component;
 use Cake\Controller\Component;
 use Cake\Utility\Security;
 use Cake\ORM\TableRegistry;
-
+use Cake\Event\Event;
 use Cake\Network\Exception\UnauthorizedException;
 
 define("SOTEIRA_SALT_LEN", 40);
@@ -13,7 +13,13 @@ define("SOTEIRA_SALT_TPL", "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOP
 
 class SoteiraComponent extends Component
 {
+	public $private_actions = array();
+
 	public $components = ['Security'];
+
+	public function addPrivates(array $privates) {
+		$this->private_actions = array_merge($this->private_actions, $privates);
+	}
 
 	public function generateSalt() {
 		$l = strlen(SOTEIRA_SALT_TPL);		
@@ -26,7 +32,6 @@ class SoteiraComponent extends Component
 	}
 
     public function hashPassword($password, $salt) {
-    	//$this->loadComponent('Security');
 
     	return Security::hash($password, 'sha256', $salt);
     }
@@ -94,6 +99,26 @@ class SoteiraComponent extends Component
 	    	throw new UnauthorizedException("User does not exists");
     	}
     	return $o;
+    }
+
+    public function beforeFilter(Event $event) {
+    	//$controller = $event->subject();
+    	$tokensTable = TableRegistry::get('Tokens');
+    	$token_string = $this->request->header('Token');
+    	if (is_null($token_string)) {
+	    	foreach ($this->private_actions as $pv) {
+		    	if ($this->request->params['action'] == $pv) {
+		    		throw new UnauthorizedException("Authorization Empty, Access denied $pv");
+		    	}
+	    	}
+    	} else {
+    		$token = $tokensTable->find()->where(['token' => $token_string])->first();
+    		if ($token) {
+    			//Everything is fine, continue
+    		} else {
+    			throw new UnauthorizedException("Token $token_string invalid");
+    		}
+    	}
     }
 }
 
