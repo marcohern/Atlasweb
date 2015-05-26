@@ -32,19 +32,8 @@ class AccountController extends AppController {
     		$this->log($ex);
     	}
 
-    	$salt = $this->Soteira->generateSalt();
-    	$pwd = $this->Soteira->hashPassword('password',$salt);
-
-    	$admin = $usersTable->newEntity();
-    	$admin->id = 1;
-    	$admin->username = 'marcohern';
-    	$admin->email = 'marcohern@gmail.com';
-    	$admin->password = $pwd;
-    	$admin->salt = $salt;
-    	$admin->fname = 'Marco';
-    	$admin->lname = 'Hernandez';
-    	$admin->role = 'ADMIN';
-    	$admin->created = new \Datetime("now");
+    	$admin = $this->Soteira->newUser(1, 'marcohern','password',
+            'marcohern@gmail.com','Marco','Hernandez','ADMIN');
 
     	$usersTable->save($admin);
 
@@ -59,43 +48,28 @@ class AccountController extends AppController {
     public function create_token() {
         
         $tokensTable = TableRegistry::get('Tokens');
-        $token = $tokensTable->newEntity();
-        $token->token = $this->Soteira->generateToken();
-        $token->id = null;
-        $token->user_id = 1;
-        $token->created = new \Datetime("now");
-        $token->expires = new \Datetime("tomorrow");
+        
+        $token = $this->Soteira->newToken(null, 1);
 
         $tokensTable->save($token);
-        
+
         $this->return_json($token);
+    }
+
+    public function clear_all_tokens() {
+        $results = $this->Soteira->clearAllTokens();
+        $this->return_json($results);
     }
 
     public function login() {
     	$input = $this->get_payload();
-    	$this->log($input);
     	
-    	$usersTable = TableRegistry::get('Users');
-
     	$username = $input['username'];
     	$password = $input['password'];
 
-    	$user = $usersTable->find()->where(['username' => $username])->first();
-    	$this->log($user);
-    	$salt = $user->salt;
-    	$pwd = $this->Soteira->hashPassword($password, $salt);
+    	$token = $this->Soteira->login($username, $password);
 
-    	$o = ['message' => "OK", 'errnum' => 0];
-    	if ($pwd != $user->password) {
-    		$o['message'] = "Username or password invalid";
-    		$o['errnum'] = 1;
-    	}
-    	
-    	$data = [
-    		'input' => $input,
-    		'output' => $o
-    	];
-    	$this->return_json($data);
+    	$this->return_json($token);
     }
 
     public function logout() {

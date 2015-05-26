@@ -3,6 +3,7 @@
 namespace App\Model\Table;
 
 use Cake\ORM\Table;
+use App\Controller\Component;
 
 class TokensTable extends Table {
 
@@ -11,6 +12,4 @@ class TokensTable extends Table {
         $this->table('tokens');
         $this->primaryKey('id');
     }
-
-    
 }

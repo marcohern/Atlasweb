@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 
+use Cake\Network\Exception\UnauthorizedException;
+
 class AppController extends Controller
 {
 
@@ -13,6 +15,11 @@ class AppController extends Controller
     }
 
     protected function return_json($data) {
+        $this->set('data', $data);
+        $this->set('_serialize','data');
+    }
+
+    protected function return_unauthorized($data) {
         $this->set('data', $data);
         $this->set('_serialize','data');
     }
