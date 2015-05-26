@@ -7,7 +7,6 @@ use Cake\ORM\Entity;
 class User extends Entity
 {
 
-
     public function __toString() {
     	return json_encode(array(
     		'id' => $this->id,
@@ -16,9 +15,8 @@ class User extends Entity
     		'fname' => $this->fname,
     		'lname' => $this->lname,
     		'role' => $this->role,
-    		'created' => time("Y-m-d H:i:s",$this->created)
+    		//'created' => date("Y-m-d H:i:s",$this->created)
     	));
     }
 }
 
-?>

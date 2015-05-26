@@ -28,6 +28,10 @@ class SoteiraComponent extends Component
 
     	return Security::hash($password, 'sha256', $salt);
     }
+
+    public function generateToken() {
+    	return Security::hash(uniqid(mt_rand(), true), 'md5', '');
+    }
 }
 
 ?>

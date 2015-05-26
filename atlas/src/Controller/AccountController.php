@@ -44,7 +44,7 @@ class AccountController extends AppController {
     	$admin->fname = 'Marco';
     	$admin->lname = 'Hernandez';
     	$admin->role = 'ADMIN';
-    	$admin->created = time("Y-m-d H:i:s");
+    	$admin->created = new \Datetime("now");
 
     	$usersTable->save($admin);
 
@@ -54,6 +54,52 @@ class AccountController extends AppController {
     	);
 
     	$this->return_json($result);
+    }
+
+    public function create_token() {
+        
+        $tokensTable = TableRegistry::get('Tokens');
+        $token = $tokensTable->newEntity();
+        $token->token = $this->Soteira->generateToken();
+        $token->id = null;
+        $token->user_id = 1;
+        $token->created = new \Datetime("now");
+        $token->expires = new \Datetime("tomorrow");
+
+        $tokensTable->save($token);
+        
+        $this->return_json($token);
+    }
+
+    public function login() {
+    	$input = $this->get_payload();
+    	$this->log($input);
+    	
+    	$usersTable = TableRegistry::get('Users');
+
+    	$username = $input['username'];
+    	$password = $input['password'];
+
+    	$user = $usersTable->find()->where(['username' => $username])->first();
+    	$this->log($user);
+    	$salt = $user->salt;
+    	$pwd = $this->Soteira->hashPassword($password, $salt);
+
+    	$o = ['message' => "OK", 'errnum' => 0];
+    	if ($pwd != $user->password) {
+    		$o['message'] = "Username or password invalid";
+    		$o['errnum'] = 1;
+    	}
+    	
+    	$data = [
+    		'input' => $input,
+    		'output' => $o
+    	];
+    	$this->return_json($data);
+    }
+
+    public function logout() {
+
     }
 }
 

@@ -4,12 +4,13 @@ namespace App\Model\Table;
 
 use Cake\ORM\Table;
 
-class UsersTable extends Table {
+class TokensTable extends Table {
 
 	public function initialize(array $config)
     {
-        $this->table('users');
+        $this->table('tokens');
         $this->primaryKey('id');
     }
+
     
 }
