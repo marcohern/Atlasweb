@@ -10,16 +10,50 @@ use Cake\Network\Exception\UnauthorizedException;
 
 define("SOTEIRA_SALT_LEN", 40);
 define("SOTEIRA_SALT_TPL", "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+define("SOTEIRA_TOKEN_HEADER","Token");
 
 class SoteiraComponent extends Component
 {
-	public $private_actions = array();
+
+	public $allow = array();
 
 	public $components = ['Security'];
 
-	public function addPrivates(array $privates) {
-		$this->private_actions = array_merge($this->private_actions, $privates);
+	public function allow(array $public) {
+		$this->allow = array_merge($this->allow, $public);
 	}
+
+    private function isActionAllowed() {
+        $currentAction = $this->request->params['action'];
+        if (array_search($currentAction, $this->allow)) return true;
+        return false;
+    }
+
+    /**
+     * Check if the request is authorized.
+     **/
+    private function authorize() {
+        $tokensTable = TableRegistry::get('Tokens');
+        $token_string = $this->request->header(SOTEIRA_TOKEN_HEADER);
+
+        if ($this->isActionAllowed()) {
+            //action is allowed, continue...
+            return;
+        }
+        if (!is_null($token_string)) {
+            $token = $tokensTable->find()->where(['token' => $token_string])->first();
+            if ($token) {
+                //Token matches, continue...
+                return;
+            } else {
+                //Token does not match, deny access...
+                throw new UnauthorizedException("Token $token_string invalid");
+            }
+        } else {
+            //Token not provided, deny access...
+            throw new UnauthorizedException("Authorization Empty, Access denied.");
+        }
+    }
 
 	public function generateSalt() {
 		$l = strlen(SOTEIRA_SALT_TPL);		
@@ -102,23 +136,8 @@ class SoteiraComponent extends Component
     }
 
     public function beforeFilter(Event $event) {
-    	//$controller = $event->subject();
-    	$tokensTable = TableRegistry::get('Tokens');
-    	$token_string = $this->request->header('Token');
-    	if (is_null($token_string)) {
-	    	foreach ($this->private_actions as $pv) {
-		    	if ($this->request->params['action'] == $pv) {
-		    		throw new UnauthorizedException("Authorization Empty, Access denied $pv");
-		    	}
-	    	}
-    	} else {
-    		$token = $tokensTable->find()->where(['token' => $token_string])->first();
-    		if ($token) {
-    			//Everything is fine, continue
-    		} else {
-    			throw new UnauthorizedException("Token $token_string invalid");
-    		}
-    	}
+    	//parent::beforeFilter($event);
+        $this->authorize();
     }
 }
 

@@ -13,7 +13,23 @@ use Cake\Datasource\ConnectionManager;
 
 use Cake\Datasource\Exception\RecordNotFoundException;
 
+define("ACCOUNT_ACCEPT_JSON",'application/json');
 class AccountController extends AppController {
+
+    private function login_view() {
+
+    }
+
+    private function login_request() {
+        $input = $this->get_payload();
+        
+        $username = $input['username'];
+        $password = $input['password'];
+
+        $token = $this->Soteira->login($username, $password);
+
+        $this->return_json($token);
+    }
 
 	public function initialize()
     {
@@ -21,7 +37,9 @@ class AccountController extends AppController {
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Soteira');
 
-        $this->Soteira->addPrivates(['private_action']);
+        $this->layout = 'GioOne/default';
+
+        $this->Soteira->allow(['create_admin','create_token','clear_all_tokens','login']);
     }
 
     public function create_admin() {
@@ -65,14 +83,11 @@ class AccountController extends AppController {
     }
 
     public function login() {
-    	$input = $this->get_payload();
-    	
-    	$username = $input['username'];
-    	$password = $input['password'];
-
-    	$token = $this->Soteira->login($username, $password);
-
-    	$this->return_json($token);
+    	if ($this->request->header('Accept') == ACCOUNT_ACCEPT_JSON) {
+            $this->login_request();
+        } else {
+            $this->login_view();
+        }
     }
 
     public function logout() {
