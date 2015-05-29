@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 
-use Cake\Network\Exception\UnauthorizedException;
 
 class AppController extends Controller
 {
