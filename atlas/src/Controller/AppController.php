@@ -11,6 +11,7 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
+        $this->layout = 'GioOne/default';
     }
 
     protected function return_json($data) {
