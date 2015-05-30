@@ -13,7 +13,6 @@ define([
 
 		initialize: function() {
 			console.log("MenuView.initialize");
-			this.render();
 		},
 
 		render: function() {

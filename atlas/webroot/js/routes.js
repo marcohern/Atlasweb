@@ -1,8 +1,9 @@
 define([
 	'backbone',
 	'views/HomeView',
-	'views/PlacesView'
-], function(Backbone, homeView, placesView) {
+	'views/PlacesView',
+	'views/EventsView'
+], function(Backbone, homeView, placesView, eventsView) {
 	console.log("Router");
 	var Router = Backbone.Router.extend({
 		routes: {
@@ -24,6 +25,7 @@ define([
 
 		gotoEvents: function() {
 			console.log("Router.gotoEvents");
+			eventsView,render();
 		},
 
 		gotoRoutes: function() {
@@ -31,7 +33,8 @@ define([
 		}
 	});
 
-	Backbone.history.start();
 	var router = new Router;
+	Backbone.history.start();
+
 	return router;
 });

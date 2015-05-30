@@ -4,10 +4,10 @@ define([
 	'backbone',
 	'routes',
 
-	'views/MenuView',
-	'views/HomeView'
-], function($, _, Backbone, routes, menuView, homeView)
+	'views/MenuView'
+], function($, _, Backbone, routes, menuView)
 {
 	console.log("app");
+	menuView.render();
 	return {};
 });

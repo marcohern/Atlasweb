@@ -11,7 +11,6 @@ define([
 
 		initialize: function() {
 			console.log("HomeView.initialize");
-			this.render();
 		},
 
 		render: function() {
