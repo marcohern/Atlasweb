@@ -9,10 +9,10 @@
     	<?= $this->Html->css('/GioOne/css/style.css') ?>
 	</head>
 	<body>
-		<?= $this->element('GioOne/nav'); ?>
-
-	    <?= $this->fetch('content') ?>
-
+        <div id="page_content">
+            <div id="nav"></div>
+            <div id="page_body"></div>
+        </div>
     	<?= $this->Html->script('require.js',['data-main' => '/js/main.js']) ?>
 	</body>
 </html>
