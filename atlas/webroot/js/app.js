@@ -8,6 +8,5 @@ define([
 ], function($, _, Backbone, routes, menuView)
 {
 	console.log("app");
-	menuView.render();
 	return {};
 });

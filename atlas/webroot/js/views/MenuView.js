@@ -13,6 +13,7 @@ define([
 
 		initialize: function() {
 			console.log("MenuView.initialize");
+			this.render();
 		},
 
 		render: function() {
@@ -20,16 +21,14 @@ define([
 			this.$el.html( this.template({}));
 		},
 
-		events: {
-			'click a' : 'updateStatus'
-		},
-
-		updateStatus: function(e) {
+		updateStatus: function(selector) {
 			console.log('MenuView.click event');
 			this.$el.find('#navbar li').removeClass('active');
-			$(e.target).parent().addClass('active');
-			console.log(e.target);
-		}
+			this.$el.find(selector).parent().addClass('active');
+			console.log(selector);
+		},
+
+
 	});
 
 	return new MenuView;
