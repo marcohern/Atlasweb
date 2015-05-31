@@ -2,12 +2,16 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'toastr',
 
 	'config'
-], function($, _, Backbone, settings) {
+], function($, _, Backbone, toastr, settings) {
 	console.log("jQueryAjaxService");
 	var serv = {
-		call: function (record, payload) {
+		initialize: function () {
+			console.log("jQueryAjaxService.initialize");
+		},
+		call: function (record, payload, success, error) {
 			console.log("jQueryAjaxService.call");
 			var url = settings.endpoint + record.uri;
 			console.log("calling " + url);
@@ -25,13 +29,21 @@ define([
 				success: function (data, status, jqXHR) {
 					console.log("success");
 					console.log(data);
+					if (typeof success == 'function')
+						success(data);
 				},
 				error: function (jqXHR, status, errorThrown) {
 					console.log("error");
-					console.log(errorThrown);	
+					var errorData = JSON.parse(jqXHR.responseText);
+					console.log(jqXHR.getResponseHeader('Content-type'));
+					toastr.error(errorData.message, errorThrown);
+					if (typeof error == 'function') {
+						error(errorData);
+					}
 				}
 			});
 		}
 	};
+	serv.initialize();
 	return serv;
 });

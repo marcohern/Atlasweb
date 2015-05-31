@@ -1,3 +1,12 @@
 body {
 	padding-top: 50px;
 }
+
+.login-container {
+	width:300px;
+	margin:0 auto;
+}
+
+.login-fields input {
+	margin-bottom: 16px;
+}

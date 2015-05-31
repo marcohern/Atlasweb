@@ -5,8 +5,8 @@ define([
 	console.log("AccountService");
 	return {
 
-		login: function(payload) {
-			jQueryAjaxService.call(jQueryAjaxRecords.login, payload);
+		login: function(payload, success, error) {
+			jQueryAjaxService.call(jQueryAjaxRecords.login, payload, success, error);
 		}
 	};
 });
