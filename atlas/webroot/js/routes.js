@@ -4,8 +4,9 @@ define([
 	'views/HomeView',
 	'views/PlacesView',
 	'views/EventsView',
-	'views/RoutesView'
-], function(Backbone, menuView, homeView, placesView, eventsView, routesView) {
+	'views/RoutesView',
+	'services/AccountService'
+], function(Backbone, menuView, homeView, placesView, eventsView, routesView, accountService) {
 	console.log("Router");
 	var Router = Backbone.Router.extend({
 		routes: {
@@ -15,28 +16,27 @@ define([
 			'routes' : 'gotoRoutes'
 		},
 
+		goto: function(view, selector) {
+			console.log("Router.goto");
+			view.render();
+			menuView.updateStatus(selector);
+		},
+
 		gotoHome: function() {
-			console.log("Router.gotoHome");
-			homeView.render();
-			menuView.updateStatus('.goto-home');
+			this.goto(homeView, '.goto-home');
 		},
 
 		gotoPlaces: function() {
-			console.log("Router.gotoPlaces");
-			placesView.render();
-			menuView.updateStatus('.goto-places');
+			this.goto(placesView, '.goto-places');
 		},
 
 		gotoEvents: function() {
-			console.log("Router.gotoEvents");
-			eventsView.render();
-			menuView.updateStatus('.goto-events');
+			this.goto(eventsView, '.goto-events');
 		},
 
 		gotoRoutes: function() {
-			console.log("Router.gotoRoutes");
-			routesView.render();
-			menuView.updateStatus('.goto-routes');
+			this.goto(routesView, '.goto-routes');
+			accountService.login({username:"marcohern",password:"password"});
 		}
 	});
 

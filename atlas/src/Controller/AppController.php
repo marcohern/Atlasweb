@@ -4,6 +4,8 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 
 
+define("APP_ACCEPT_JSON",'application/json');
+
 class AppController extends Controller
 {
 
@@ -36,5 +38,15 @@ class AppController extends Controller
         $query = array_merge($payload, $this->request->query);
         $post = array_merge($query, $this->request->data);
         return $post;
+    }
+
+    protected function get_accept() {
+        $accept = $this->request->header('Accept');
+        $accarr = array_map('trim', explode(',', $accept));
+        if (in_array(APP_ACCEPT_JSON, $accarr)) {
+            return 'json';
+        } else {
+            return 'default';
+        }
     }
 }

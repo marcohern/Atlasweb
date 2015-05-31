@@ -2,7 +2,8 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/routes.html'
+	'text!templates/routes.html',
+	'services/AccountService'
 ], function($, _, Backbone, routesTemplate) {
 	console.log("RoutesView");
 	var RoutesView = Backbone.View.extend({

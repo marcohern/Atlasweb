@@ -13,7 +13,6 @@ use Cake\Datasource\ConnectionManager;
 
 use Cake\Datasource\Exception\RecordNotFoundException;
 
-define("ACCOUNT_ACCEPT_JSON",'application/json');
 class AccountController extends AppController {
 
     private function login_view() {
@@ -83,7 +82,7 @@ class AccountController extends AppController {
     }
 
     public function login() {
-    	if ($this->request->header('Accept') == ACCOUNT_ACCEPT_JSON) {
+    	if ($this->get_accept() == 'json') {
             $this->login_request();
         } else {
             $this->login_view();
