@@ -2,8 +2,9 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'views/MapView',
 	'text!templates/places.html'
-], function($, _, Backbone, placesTemplate) {
+], function($, _, Backbone, mapView, placesTemplate) {
 	console.log("PlacesView");
 	var PlacesView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -16,6 +17,7 @@ define([
 		render: function() {
 			console.log("PlacesView.render");
 			this.$el.html( this.template({}));
+			mapView.render();
 		}
 	});
 

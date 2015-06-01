@@ -8,6 +8,8 @@
     	<?= $this->Html->css('/bootstrap/css/bootstrap.min.css') ?>
     	<?= $this->Html->css('/bootstrap/css/bootstrap-theme.min.css') ?>
         <?= $this->Html->css('/GioOne/css/style.css') ?>
+        <?= $this->Html->script('https://maps.googleapis.com/maps/api/js?key=AIzaSyD5HhjYgZqtLu8p3H4_TKwxTZ0JpAhxAp4') ?>
+    </script>
 	</head>
 	<body>
         <div id="page_content">
