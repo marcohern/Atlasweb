@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php
+//atlas.marcohern.local AIzaSyC0kOuurv2PZaAJStxQXkfKLaHbnMFvIRs
+//atlas.local AIzaSyD5HhjYgZqtLu8p3H4_TKwxTZ0JpAhxAp4
+?><!DOCTYPE html>
 <html>
 	<head>
     	<?= $this->Html->charset() ?>

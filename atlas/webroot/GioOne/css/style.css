@@ -18,3 +18,16 @@ body {
 .login-fields input {
 	margin-bottom: 16px;
 }
+
+.fc-50 {
+	width:50%;
+	float:left;
+}
+
+.fc-left {
+	padding-right: 8px;
+}
+
+.fc-right {
+	padding-left: 8px;
+}

@@ -1,0 +1,31 @@
+<div class="container map-container">
+
+  <div>
+    <h1>Places Page</h1>
+  </div>
+  <div class="row map-row">
+  	<div class="col-md-3">
+  		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Add a new Place</h3>
+			</div>
+			<div class="panel-body login-fields">
+				<form id="form-places" >
+					<input name="name" type="text" class="form-control" placeholder="Name">
+					<div class="fc-50 fc-left">
+						<input name="lat" type="text" class="form-control" placeholder="Lat">
+					</div>
+					<div class="fc-50 fc-right">
+						<input name="lng" type="text" class="form-control" placeholder="Lng">
+					</div>
+					<button type="button" class="btn btn-info btn-block request-login">Save</button>
+				</form>
+			</div>
+		</div>
+  	</div>
+  	<div class="col-md-9 map-col">
+  		<div id="map" class="map"></div>
+  	</div>
+  </div>
+
+</div><!-- /.container -->
