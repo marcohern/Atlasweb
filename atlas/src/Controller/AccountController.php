@@ -33,12 +33,11 @@ class AccountController extends AppController {
 	public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('RequestHandler');
         $this->loadComponent('Soteira');
 
         $this->layout = 'GioOne/default';
 
-        $this->Soteira->allow(['create_admin','create_token','clear_all_tokens','login']);
+        $this->Soteira->allow(['xxx','create_admin','create_token','clear_all_tokens','login']);
     }
 
     public function create_admin() {
