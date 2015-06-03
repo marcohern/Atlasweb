@@ -2,7 +2,36 @@
 
   <div>
     <h1>Users template</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+    <table class="table">
+    	<thead>
+    		<tr>
+    			<th>#</th>
+    			<th>username</th>
+    			<th>email</th>
+    			<th>fname</th>
+    			<th>lname</th>
+    			<th>role</th>
+    			<th>&nbsp;</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<% _.each(users, function (user) { %>
+    			<td><%= user.get('id') %></td>
+    			<td><%= user.get('username') %></td>
+    			<td><%= user.get('email') %></td>
+    			<td><%= user.get('fname') %></td>
+    			<td><%= user.get('lname') %></td>
+    			<td><%= user.get('role') %></td>
+    			<td>
+    				<button class="btn btn-info">Edit</button>
+    				<button class="btn btn-danger">Delete</button>
+    			</td>
+    		<% }); %>
+    	</tbody>
+    </table>
+    <% if(error) { %>
+    	<p>Error while loading stuff</p>
+    <% }; %>
   </div>
 
 </div><!-- /.container -->
