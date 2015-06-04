@@ -2,7 +2,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'text!templates/users.html',
+	'text!templates/users/index.html',
 
 	'models/User',
 	'collections/UserCollection'
@@ -17,6 +17,11 @@ define([
 			console.log("UsersView.initialize");
 
 			//u1 = new User({id:3,username:"mack",email:"mach@mail.com",password:'123',fname:"Anthony",lname:"Macke",role:"ADMIN"});
+			
+		},
+
+		render: function() {
+			console.log("UsersView.render");
 			var that = this;
 			this.users.fetch({
 				success: function() {
@@ -30,9 +35,13 @@ define([
 			});
 		},
 
-		render: function() {
-			console.log("UsersView.render");
-			this.$el.html( this.template({users: this.users.models, error: false }));
+		events: {
+			'click #user-add': 'gotoUserAdd'
+		},
+
+		gotoUserAdd: function(e) {
+			console.log("UsersView.gotoUserAdd");
+			window.router.navigate('users/add', true);
 		}
 	});
 

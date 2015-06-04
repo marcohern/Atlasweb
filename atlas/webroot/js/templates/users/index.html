@@ -2,6 +2,7 @@
 
   <div>
     <h1>Users template</h1>
+    <button id="user-add" class="btn btn-info">+ New</button>
     <table class="table">
     	<thead>
     		<tr>
@@ -31,6 +32,7 @@
     </table>
     <% if(error) { %>
     	<p>Error while loading stuff</p>
+    	<button id="try-again" class="btn btn-info">Try Again</button>
     <% }; %>
   </div>
 
