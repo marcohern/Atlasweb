@@ -2,9 +2,18 @@
 
 namespace App\Controller;
 
+use Cake\Event\Event;
+
 class UsersController extends AppController {
+
 	public function initialize() {
+        $this->log("AppController.initialize");
 		parent::initialize();
+		$this->Soteira->allow(['index','add']);
+	}
+
+	public function beforeFilter(Event $e) {
+		parent::beforeFilter($e);
 	}
 
 	public function index() {
@@ -21,6 +30,9 @@ class UsersController extends AppController {
 	public function add() {
 		$data = $this->get_payload();
 		$user = $this->Users->newEntity($data);
+		$user->salt = $this->Soteira->generateSalt();
+		$user->password = $this->Soteira->hashPassword($user->password, $user->salt);
+		$user->created = new \Datetime();
 		if ($this->Users->save($user)) {
 			$this->return_json(['added' => true, 'id' => $user->id]);
 		} else {

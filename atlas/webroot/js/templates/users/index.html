@@ -17,6 +17,7 @@
     	</thead>
     	<tbody>
     		<% _.each(users, function (user) { %>
+            <tr>
     			<td><%= user.get('id') %></td>
     			<td><%= user.get('username') %></td>
     			<td><%= user.get('email') %></td>
@@ -27,6 +28,7 @@
     				<button class="btn btn-info">Edit</button>
     				<button class="btn btn-danger">Delete</button>
     			</td>
+            </tr>
     		<% }); %>
     	</tbody>
     </table>

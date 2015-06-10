@@ -15,24 +15,28 @@ define("SOTEIRA_TOKEN_HEADER","Token");
 class SoteiraComponent extends Component
 {
 
-	public $allow = array();
+	public $allow = [];
 
 	public $components = ['Security'];
 
 	public function allow(array $public) {
+        $this->log("Soteira.allow");
 		$this->allow = array_merge($this->allow, $public);
 	}
 
     private function isActionAllowed() {
+        $this->log("Soteira.isActionAllowed");
         $currentAction = $this->request->params['action'];
-        if (array_search($currentAction, $this->allow)) return true;
-        return false;
+        if (array_search($currentAction, $this->allow) === false) return false;
+        return true;
     }
 
     /**
      * Check if the request is authorized.
      **/
     private function authorize() {
+        //return;
+        $this->log("Soteira.authorize");
         $tokensTable = TableRegistry::get('Tokens');
         $token_string = $this->request->header(SOTEIRA_TOKEN_HEADER);
 
@@ -53,6 +57,12 @@ class SoteiraComponent extends Component
             //Token not provided, deny access...
             throw new UnauthorizedException("Authorization Empty, Access denied.");
         }
+    }
+
+    public function initialize(array $config) {
+        parent::initialize($config);
+
+        $this->log("Soteira.initialize");
     }
 
 	public function generateSalt() {
@@ -136,6 +146,7 @@ class SoteiraComponent extends Component
     }
 
     public function beforeFilter(Event $event) {
+        $this->log("Soteira.beforeFilter");
     	//parent::beforeFilter($event);
         $this->authorize();
     }

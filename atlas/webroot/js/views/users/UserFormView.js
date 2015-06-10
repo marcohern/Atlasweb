@@ -3,10 +3,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'toastr',
 
 	'models/User',
-	'text!templates/users/form.html'
-], function($, _, Backbone, User, userFormTemplate){
+	'text!templates/users/form.html',
+
+	'routes'
+], function($, _, Backbone, toastr, User, userFormTemplate){
 	console.log("UserFormView");
 	var UserFormView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -30,8 +33,21 @@ define([
 		requestSave: function(e) {
 			console.log("UserFormView.requestSave");
 
-        	var data = JSON.stringify( this.getFormData( this.$el.find('form') ) );
-        	this.user.save(data);
+        	var data = this.getFormData( this.$el.find('form'));
+        	var that = this;
+        	this.user.save(data, {
+        		success: function(model, response) {
+        			console.log("UserFormView.requestSave success");
+					window.router.navigate('users', true);
+        		},
+        		error: function(model, response) {
+        			console.log("UserFormView.requestSave error");
+        			console.log(model);
+        			console.log(response);
+        			toastr.error(response.message, "Error Saving");
+        		},
+        		wait: true
+        	});
         	return false;
 		},
 
@@ -47,7 +63,6 @@ define([
 			$.map(unindexed_array, function(n, i){
 				indexed_array[n['name']] = n['value'];
 			});
-
 			return indexed_array;
     },
 	});

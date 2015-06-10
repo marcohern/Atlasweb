@@ -33,7 +33,6 @@ class AccountController extends AppController {
 	public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Soteira');
 
         $this->layout = 'GioOne/default';
 
