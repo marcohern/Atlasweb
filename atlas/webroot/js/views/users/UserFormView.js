@@ -18,22 +18,40 @@ define([
 
 		initialize: function() {
 			console.log("UserFormView.initialize");
-			this.user = new User();
 		},
 
-		render: function() {
-			this.$el.html( this.template({}));
+		render: function(user_id) {
+			console.log("UserFormView.render");
+			var that = this;
+			this.user = null;
+			if (typeof user_id === "string") {
+				this.user = new User({id: user_id});
+				this.user.fetch({
+					success: function () {
+						console.log("UserFormView.render.success");
+						that.$el.html( that.template({user: that.user}));
+					},
+					error: function()  {
+						console.log("UserFormView.render.error");
+						toastr.error("Unable to fetch user", "error");
+					}
+				});
+			} else {
+				this.user = new User();
+				this.$el.html( this.template({user: this.user}));
+			}
 		},
 
 		events: {
 			'click #user-save': 'requestSave',
-			'click #user-save-cancel': 'gotoUsers'
+			'click #user-save-cancel': 'gotoUsers',
 		},
 
 		requestSave: function(e) {
 			console.log("UserFormView.requestSave");
 
         	var data = this.getFormData( this.$el.find('form'));
+        	console.log(data);
         	var that = this;
         	this.user.save(data, {
         		success: function(model, response) {

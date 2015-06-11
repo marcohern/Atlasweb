@@ -21,6 +21,7 @@ define([
 			'' : 'gotoHome',
 			'users'  : 'gotoUsers',
 			'users/add'  : 'gotoUserAdd',
+			'users/edit/:id'  : 'gotoUserEdit',
 			'places' : 'gotoPlaces',
 			'events' : 'gotoEvents',
 			'routes' : 'gotoRoutes',
@@ -45,10 +46,10 @@ define([
 			}
 		},
 
-		goto: function(view, selector, displayMenu) {
+		goto: function(view, selector, displayMenu, data) {
 			console.log("Router.goto");
 			this.displayOrHideMenu(displayMenu, selector);
-			view.render();
+			view.render(data);
 		},
 
 		gotoLogin: function() {
@@ -65,6 +66,12 @@ define([
 
 		gotoUserAdd: function() {
 			this.goto(userFormView, '.goto-users', true);
+		},
+
+		gotoUserEdit: function(id) {
+			console.log("Router.gotoUserEdit");
+			console.log(id);
+			this.goto(userFormView, '.goto-users', true, id);
 		},
 
 		gotoPlaces: function() {

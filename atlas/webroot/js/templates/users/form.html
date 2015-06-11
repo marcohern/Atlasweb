@@ -1,17 +1,18 @@
 <div class="container">
     <h1>Create User</h1>
 	<form>
+		<% if (user.get('id')) { %><input type="hidden" name="id" value="<%= user.get('id') %>"/><% } %>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="username">Username</label>
-					<input type="text" class="form-control" name="username" placeholder="Enter username"/>
+					<input type="text" class="form-control" name="username" placeholder="Enter username" value="<%= user.get('username') %>" <%= (user.get('id')) ? "readonly" : "" %>/>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" name="password" placeholder="Enter username"/>
+					<input type="password" class="form-control" name="password" placeholder="Enter password" value="<%= (user.get('id')) ? "xxxxxxxxx" : "" %>" <%= (user.get('id')) ? "readonly" : "" %>/>
 				</div>
 			</div>
 		</div>
@@ -19,19 +20,19 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="fname">First Name</label>
-					<input type="text" class="form-control" name="fname" placeholder="Enter first name"/>
+					<input type="text" class="form-control" name="fname" placeholder="Enter first name" value="<%= user.get('fname') %>"/>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="lname">Last Name</label>
-					<input type="text" class="form-control" name="lname" placeholder="Enter last name"/>
+					<input type="text" class="form-control" name="lname" placeholder="Enter last name" value="<%= user.get('lname') %>"/>
 				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
-			<input type="email" class="form-control" name="email" placeholder="Enter password"/>
+			<input type="email" class="form-control" name="email" placeholder="Enter email" value="<%= user.get('email') %>"/>
 		</div>
 		<div class="form-group">
 			<div class="row">
@@ -41,7 +42,7 @@
 				<div class="col-md-1">
 					<div class="radio">
 						<label>
-							<input type="radio" name="role" id="role_admin" value="ADMIN"/>
+							<input type="radio" name="role" id="role_admin" value="ADMIN" <%= (user.get('role')==="ADMIN") ? "checked" : "" %>/>
 							Admin
 						</label>
 					</div>
@@ -49,7 +50,7 @@
 				<div class="col-md-1">
 					<div class="radio">
 						<label>
-							<input type="radio" name="role" id="role_user" value="USER" checked/>
+							<input type="radio" name="role" id="role_user" value="USER" <%= (user.get('role')==="USER") ? "checked" : "" %>/>
 							User
 						</label>
 					</div>

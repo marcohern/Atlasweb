@@ -25,8 +25,8 @@
     			<td><%= user.get('lname') %></td>
     			<td><%= user.get('role') %></td>
     			<td>
-    				<button class="btn btn-info">Edit</button>
-    				<button class="btn btn-danger">Delete</button>
+    				<a id="btn-user-edit-<%= user.get('id') %>" class="btn btn-info user-edit" href="#users/edit/<%= user.get('id') %>">Edit</a>
+    				<a id="btn-user-delete-<%= user.get('id') %>" class="btn btn-danger user-delete" data-user-id="<%= user.get('id') %>">Delete</a>
     			</td>
             </tr>
     		<% }); %>

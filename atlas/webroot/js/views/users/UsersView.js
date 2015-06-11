@@ -2,11 +2,12 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'toastr',
 	'text!templates/users/index.html',
 
 	'models/User',
 	'collections/UserCollection'
-], function($, _, Backbone, usersTemplate, User, UserCollection) {
+], function($, _, Backbone, toastr, usersTemplate, User, UserCollection) {
 	console.log("UsersView");
 	var UsersView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -36,12 +37,30 @@ define([
 		},
 
 		events: {
-			'click #user-add': 'gotoUserAdd'
+			'click #user-add': 'gotoUserAdd',
+			'click .user-delete': 'deleteUser'
 		},
 
 		gotoUserAdd: function(e) {
 			console.log("UsersView.gotoUserAdd");
 			window.router.navigate('users/add', true);
+		},
+
+		deleteUser: function(e) {
+			console.log("UsersView.deleteUser");
+			var user_id = $(e.currentTarget).data('user-id');
+			console.log(user_id);
+			var user = new User({id:user_id});
+			user.destroy({
+				success: function(model, response) {
+					console.log("UsersView.deleteUser.success");
+					$(e.currentTarget).parents('tr').remove();
+				},
+				error: function(model, response) {
+					console.log("UsersView.deleteUser.error");
+        			toastr.error(response.message, "Error Saving");
+				}
+			});
 		}
 	});
 
