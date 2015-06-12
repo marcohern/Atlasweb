@@ -36,7 +36,7 @@ class AccountController extends AppController {
 
         $this->layout = 'GioOne/default';
 
-        $this->Soteira->allow(['xxx','create_admin','create_token','clear_all_tokens','login']);
+        $this->Soteira->allow(['create_admin','create_token','clear_all_tokens','login']);
     }
 
     public function create_admin() {

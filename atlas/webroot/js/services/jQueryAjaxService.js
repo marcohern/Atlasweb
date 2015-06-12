@@ -23,9 +23,6 @@ define([
 				dataType: 'json',
 				processData: false,
 				data: JSON.stringify(payload),
-				headers: {
-					"Header-Test": "This_is_a_test"
-				},
 				success: function (data, status, jqXHR) {
 					console.log("success");
 					console.log(data);

@@ -9,7 +9,7 @@ class UsersController extends AppController {
 	public function initialize() {
         $this->log("AppController.initialize");
 		parent::initialize();
-		$this->Soteira->allow(['index','add','view','edit','delete']);
+		//$this->Soteira->allow(['index','add','view','edit','delete']);
 	}
 
 	public function beforeFilter(Event $e) {
