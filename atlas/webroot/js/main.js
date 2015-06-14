@@ -16,7 +16,7 @@ require([
 	'app',
 	function (App) {
 		console.log("main");
-
+		console.log(App);
 		App.initialize();
 	}
 ]);

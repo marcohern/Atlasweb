@@ -4,11 +4,12 @@ define([
 	'backbone',
 	'toastr',
 	'config',
-	'routes'
+	'router'
 ], function($, _, Backbone, toastr, settings)
 {
 	console.log("app");
 	console.log(window.appSettings.endpoint);
+
 	
 	toastr.options = {
 		"closeButton": false,
@@ -53,5 +54,9 @@ define([
 		onBeforeSend(jqxhr);
 	};
 
-	return {};
+	return {
+		initialize: function() {
+			
+		}
+	};
 });

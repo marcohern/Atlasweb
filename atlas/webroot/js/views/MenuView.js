@@ -3,9 +3,11 @@ define([
 	'underscore',
 	'backbone',
 
-	'text!templates/menu.html'
-], function($, _, Backbone, menuTemplate) {
+	'text!templates/menu.html',
+	'router'
+], function($, _, Backbone, menuTemplate, Router) {
 	console.log("MenuView");
+	console.log(typeof Router);
 	
 	var MenuView = Backbone.View.extend({
 		el: $('#nav'),

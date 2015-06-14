@@ -8,7 +8,7 @@ define([
 	'models/User',
 	'text!templates/users/form.html',
 
-	'routes'
+	'router'
 ], function($, _, Backbone, toastr, User, userFormTemplate){
 	console.log("UserFormView");
 	var UserFormView = Backbone.View.extend({

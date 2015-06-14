@@ -97,5 +97,5 @@ define([
 	window.router = new Router;
 	Backbone.history.start();
 
-	return window.router;
+	return Router;
 });

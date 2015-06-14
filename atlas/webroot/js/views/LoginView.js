@@ -10,7 +10,7 @@ define([
 	'text!templates/login.html',
 	'config',
 
-	'routes'
+	'router'
 ], function($, _, Backbone, toastr, menuView, accountService, loginTemplate, settings){
 	console.log('LoginView');
 	LoginView = Backbone.View.extend({
