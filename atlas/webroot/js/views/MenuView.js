@@ -5,9 +5,8 @@ define([
 
 	'text!templates/menu.html',
 	'router'
-], function($, _, Backbone, menuTemplate, Router) {
+], function($, _, Backbone, menuTemplate) {
 	console.log("MenuView");
-	console.log(typeof Router);
 	
 	var MenuView = Backbone.View.extend({
 		el: $('#nav'),

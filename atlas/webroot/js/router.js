@@ -29,6 +29,10 @@ define([
 			'logout' : 'gotoLogout'
 		},
 
+		initialize: function() {
+			console.log("Router.initialize");
+		},
+
 		displayOrHideMenu: function(displayMenu, selector) {
 			if (typeof displayMenu == 'boolean') {
 				if (displayMenu) {
