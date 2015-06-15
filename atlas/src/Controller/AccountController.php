@@ -36,7 +36,30 @@ class AccountController extends AppController {
 
         $this->layout = 'GioOne/default';
 
-        $this->Soteira->allow(['create_admin','create_token','clear_all_tokens','login']);
+        $this->Soteira->allow(['create_admin','create_token','create_app','clear_all_tokens','login']);
+    }
+
+    public function create_app() {
+
+        $appsTable = TableRegistry::get('Apps');
+        
+        try {
+            $x = $appsTable->get(1);
+            $appsTable->delete($x);
+        } catch (RecordNotFoundException $ex) {
+            $this->log($ex);
+        }
+
+        $app = $appsTable->newEntity();
+        $app->id = 1;
+        $app->code = "Atlas";
+        $app->sender_id = 3450412139;
+        $app->sender_secret = $this->Soteira->generateSalt();
+        $app->permissions = "users,places,events,routes";
+        $app->created = new \Datetime("now");
+        $appsTable->save($app);
+
+        $this->return_json($app);
     }
 
     public function create_admin() {
