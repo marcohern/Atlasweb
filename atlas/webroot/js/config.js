@@ -6,5 +6,10 @@ define([], function () {
 		tokenExpires: null
 	};
 
+	if (typeof window.localStorage !== 'undefined') {
+		window.appSettings.token = localStorage.getItem('token');
+		window.appSettings.tokenExpires = localStorage.getItem('tokenExpires');
+	}
+
 	return window.appSettings;
 });

@@ -46,6 +46,10 @@ define([
 			//save the token
 			settings.token = data.token;
 			settings.tokenExpires = new Date(Date.parse(data.created));
+			if (typeof window.localStorage !== 'undefined') {
+				localStorage.setItem('token', settings.token);
+				localStorage.setItem('tokenExpires', settings.tokenExpires);
+			}
 
 			//render the menu
 			window.router.navigate('', true);

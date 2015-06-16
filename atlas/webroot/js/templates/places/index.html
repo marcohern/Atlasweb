@@ -1,0 +1,35 @@
+<div class="container">
+
+  <div>
+    <h1>Places</h1>
+    <button id="place-add" class="btn btn-info">+ New Place</button>
+    <table class="table">
+    	<thead>
+    		<tr>
+    			<th>#</th>
+    			<th>name</th>
+    			<th>description</th>
+    			<th>&nbsp;</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<% _.each(places, function (place) { %>
+            <tr>
+    			<td><%= place.get('id') %></td>
+    			<td><%= place.get('name') %></td>
+    			<td><%= place.get('description') %></td>
+    			<td>
+    				<a id="btn-place-edit-<%= place.get('id') %>" class="btn btn-info place-edit" href="#places/edit/<%= place.get('id') %>">Edit</a>
+    				<a id="btn-place-delete-<%= place.get('id') %>" class="btn btn-danger place-delete" data-place-id="<%= place.get('id') %>">Delete</a>
+    			</td>
+            </tr>
+    		<% }); %>
+    	</tbody>
+    </table>
+    <% if(error) { %>
+    	<p>Error while loading stuff</p>
+    	<button id="try-again" class="btn btn-info">Try Again</button>
+    <% }; %>
+  </div>
+
+</div><!-- /.container -->

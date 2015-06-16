@@ -53,7 +53,7 @@ class AccountController extends AppController {
         $app = $appsTable->newEntity();
         $app->id = 1;
         $app->code = "Atlas";
-        $app->sender_id = 3450412139;
+        $app->sender_id = uniqid();
         $app->sender_secret = $this->Soteira->generateSalt();
         $app->permissions = "users,places,events,routes";
         $app->created = new \Datetime("now");

@@ -4,7 +4,8 @@ define([
 	'views/HomeView',
 	'views/users/UsersView',
 	'views/users/UserFormView',
-	'views/PlacesView',
+	'views/places/PlacesView',
+	'views/places/PlacesFormView',
 	'views/EventsView',
 	'views/RoutesView',
 	'views/LoginView',
@@ -13,7 +14,8 @@ define([
 ], function(Backbone,
 	menuView, homeView,
 	usersView, userFormView,
-	placesView, eventsView, routesView, loginView,
+	placesView, placesFormView,
+	eventsView, routesView, loginView,
 	accountService, settings) {
 	console.log("Router");
 	var Router = Backbone.Router.extend({
@@ -23,6 +25,7 @@ define([
 			'users/add'  : 'gotoUserAdd',
 			'users/edit/:id'  : 'gotoUserEdit',
 			'places' : 'gotoPlaces',
+			'places/add' : 'gotoPlacesAdd',
 			'events' : 'gotoEvents',
 			'routes' : 'gotoRoutes',
 			'login'  : 'gotoLogin',
@@ -80,6 +83,11 @@ define([
 
 		gotoPlaces: function() {
 			this.goto(placesView, '.goto-places', true);
+		},
+
+		gotoPlacesAdd: function() {
+			console.log("Router.gotoPlacesAdd");
+			this.goto(placesFormView, '.goto-places', true);
 		},
 
 		gotoEvents: function() {
