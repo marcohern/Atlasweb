@@ -26,6 +26,7 @@ define([
 			'users/edit/:id'  : 'gotoUserEdit',
 			'places' : 'gotoPlaces',
 			'places/add' : 'gotoPlacesAdd',
+			'places/edit/:id' : 'gotoPlacesEdit',
 			'events' : 'gotoEvents',
 			'routes' : 'gotoRoutes',
 			'login'  : 'gotoLogin',
@@ -88,6 +89,12 @@ define([
 		gotoPlacesAdd: function() {
 			console.log("Router.gotoPlacesAdd");
 			this.goto(placesFormView, '.goto-places', true);
+		},
+
+		gotoPlacesEdit: function(id) {
+			console.log("Router.gotoPlacesEdit");
+			console.log(id);
+			this.goto(placesFormView, '.goto-places', true, id);
 		},
 
 		gotoEvents: function() {

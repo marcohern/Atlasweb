@@ -25,15 +25,16 @@ define([
 			var that = this;
 			this.place = null;
 			if (typeof place_id === "string") {
-				this.place = new User({id: place_id});
+				this.place = new Place({id: place_id});
 				this.place.fetch({
 					success: function () {
-						console.log("UserFormView.render.success");
+						console.log("PlacesFormView.render.success");
 						that.$el.html( that.template({place: that.place}));
 						mapView.render();
+						mapView.setCurrentMarker(that.place.get('lat'),that.place.get('lng'));
 					},
 					error: function()  {
-						console.log("UserFormView.render.error");
+						console.log("PlacesFormView.render.error");
 						toastr.error("Unable to fetch place", "error");
 					}
 				});
@@ -45,23 +46,23 @@ define([
 		},
 
 		events: {
-			'click #user-save': 'requestSave',
-			'click #user-save-cancel': 'gotoUsers',
+			'click #place-save': 'requestSave',
+			'click #place-save-cancel': 'gotoPlaces',
 		},
 
 		requestSave: function(e) {
-			console.log("UserFormView.requestSave");
+			console.log("PlacesFormView.requestSave");
 
         	var data = this.getFormData( this.$el.find('form'));
         	console.log(data);
         	var that = this;
-        	this.user.save(data, {
+        	this.place.save(data, {
         		success: function(model, response) {
-        			console.log("UserFormView.requestSave success");
-					window.router.navigate('users', true);
+        			console.log("PlacesFormView.requestSave success");
+					window.router.navigate('places', true);
         		},
         		error: function(model, response) {
-        			console.log("UserFormView.requestSave error");
+        			console.log("PlacesFormView.requestSave error");
         			console.log(model);
         			console.log(response);
         			toastr.error(response.message, "Error Saving");
@@ -71,9 +72,9 @@ define([
         	return false;
 		},
 
-		gotoUsers: function(e) {
-			console.log("UserFormView.gotoUsers");
-			window.router.navigate('users', true);
+		gotoPlaces: function(e) {
+			console.log("PlacesFormView.gotoPlaces");
+			window.router.navigate('places', true);
 		},
 
 		getFormData: function(form) { 
@@ -84,7 +85,7 @@ define([
 				indexed_array[n['name']] = n['value'];
 			});
 			return indexed_array;
-    },
+    	},
 	});
 	return new UserFormView;
 });

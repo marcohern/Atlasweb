@@ -19,6 +19,17 @@ body {
 	margin-bottom: 16px;
 }
 
+.form-fields input,
+.form-fields textarea,
+.form-fields button
+{
+	margin-bottom: 16px;
+}
+
+.form-fields textarea {
+	height: 8em;
+}
+
 .fc-50 {
 	width:50%;
 	float:left;

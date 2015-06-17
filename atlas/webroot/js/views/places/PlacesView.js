@@ -3,8 +3,9 @@ define([
 	'underscore',
 	'backbone',
 	'text!templates/places/index.html',
+	'models/Place',
 	'collections/PlaceCollection'
-], function($, _, Backbone, placesTemplate, PlaceCollection) {
+], function($, _, Backbone, placesTemplate, Place, PlaceCollection) {
 	console.log("PlacesView");
 	var PlacesView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -12,13 +13,30 @@ define([
 		places: new PlaceCollection(),
 
 		events: {
-			'click #place-add': 'gotoUserAdd',
-			'click .place-delete': 'deleteUser'
+			'click #place-add': 'gotoPlaceAdd',
+			'click .place-delete': 'deletePlace'
 		},
 
-		gotoUserAdd: function() {
-			console.log("PlacesView.gotoUserAdd");
+		gotoPlaceAdd: function() {
+			console.log("PlacesView.gotoPlaceAdd");
 			window.router.navigate('places/add', true);
+		},
+
+		deletePlace: function(e) {
+			console.log("UsersView.deleteUser");
+			var place_id = $(e.currentTarget).data('place-id');
+			console.log(place_id);
+			var place = new Place({id:place_id});
+			place.destroy({
+				success: function(model, response) {
+					console.log("UsersView.deleteUser.success");
+					$(e.currentTarget).parents('tr').remove();
+				},
+				error: function(model, response) {
+					console.log("UsersView.deleteUser.error");
+        			toastr.error(response.message, "Error Saving");
+				}
+			});
 		},
 
 		initialize: function() {

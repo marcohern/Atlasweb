@@ -52,8 +52,16 @@ define([
 			marker.setPosition(e.latLng);
 		},
 
+		setCurrentMarker: function(lat, lng) {
+			console.log("MapView.setCurrentMarker");
+			var latLng = new google.maps.LatLng(lat,lng);
+			var marker = this.getCursorMarker();
+			marker.setPosition(latLng);
+		},
+
 		render: function() {
 			console.log("MapView.render");
+			this.cursorMarker = null;
 			this.loadMap();
 		}
 	});
