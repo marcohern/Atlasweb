@@ -5,12 +5,12 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use App\Controller\Component;
 
-class BarsTable extends Table {
+class BarsWeekSchedulesTable extends Table {
 
 	public function initialize(array $config)
     {
-        $this->table('bars');
+        $this->table('bars_week_schedules');
         $this->primaryKey('id');
-        $this->hasMany('BarsWeekSchedules');
+        $this->belongsTo('Bars');
     }
 }

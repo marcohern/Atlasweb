@@ -19,6 +19,7 @@ class AppController extends Controller
     }
 
     protected function return_json($data) {
+        if (empty($data)) $data=[];
         $this->set('data', $data);
         $this->set('_serialize','data');
     }

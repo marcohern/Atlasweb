@@ -22,8 +22,9 @@ class BarsController extends AppController {
 	}
 
 	public function view($id) {
-		$bar = $this->Bars->find()->where(['id' => $id])->first();
-		$this->return_json($bar);
+		$bar = $this->Bars->find()->contain(['BarsWeekSchedules'])->where(['id' => $id])->first();
+		if ($bar) $this->return_json($bar);
+		else new AppError('bar not found');
 	}
 
 	public function add() {
