@@ -31,6 +31,7 @@ define([
 
 	var onBeforeSend = function(xhr) {
 		console.log("onBeforeSend");
+		$('#loading').show();
 		if (typeof settings.token === 'string') {
 			console.log("TOKEN: " + settings.token);
 			xhr.setRequestHeader('Token',settings.token);
@@ -39,12 +40,20 @@ define([
 		}
 	};
 
+	var onComplete = function() {
+		console.log("onComplete");
+		$('#loading').hide();
+	};
+
 	var sync = Backbone.sync;
 	Backbone.sync = function(method, model, options) {
 		console.log("Backbone.sync");
 		options.beforeSend = function(xhr) {
 			console.log("Backbone.sync.beforeSend");
 			onBeforeSend(xhr);
+		};
+		options.complete = function(xhr) {
+			onComplete();
 		};
 		sync(method, model, options);
 	};

@@ -20,5 +20,8 @@
             <div id="page_body"></div>
         </div>
     	<?= $this->Html->script('require.js',['data-main' => '/js/main.js']) ?>
+        <div id="loading">
+            <div class="spinner"></div>
+        </div>
 	</body>
 </html>
