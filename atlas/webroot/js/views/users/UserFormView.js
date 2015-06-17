@@ -4,19 +4,21 @@ define([
 	'underscore',
 	'backbone',
 	'toastr',
+	'views/BaseView',
 
 	'models/User',
 	'text!templates/users/form.html',
 
 	'router'
-], function($, _, Backbone, toastr, User, userFormTemplate){
+], function($, _, Backbone, toastr, BaseView, User, userFormTemplate){
 	console.log("UserFormView");
-	var UserFormView = Backbone.View.extend({
+	var UserFormView = BaseView.extend({
 		el: $('#page_body'),
 		template: _.template( userFormTemplate),
 		user: null,
 
 		initialize: function() {
+			this._initialize();
 			console.log("UserFormView.initialize");
 		},
 
@@ -72,17 +74,7 @@ define([
 		gotoUsers: function(e) {
 			console.log("UserFormView.gotoUsers");
 			window.router.navigate('users', true);
-		},
-
-		getFormData: function(form) { 
-			var unindexed_array = form.serializeArray();
-			var indexed_array = {};
-
-			$.map(unindexed_array, function(n, i){
-				indexed_array[n['name']] = n['value'];
-			});
-			return indexed_array;
-    },
+		}
 	});
 	return new UserFormView;
 });

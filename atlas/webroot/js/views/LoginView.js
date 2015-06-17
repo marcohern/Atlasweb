@@ -4,6 +4,7 @@ define([
 	'backbone',
 	'toastr',
 
+	'views/BaseView',
 	'views/MenuView',
 	'services/AccountService',
 
@@ -11,12 +12,13 @@ define([
 	'config',
 
 	'router'
-], function($, _, Backbone, toastr, menuView, accountService, loginTemplate, settings){
+], function($, _, Backbone, toastr, BaseView, menuView, accountService, loginTemplate, settings){
 	console.log('LoginView');
-	LoginView = Backbone.View.extend({
+	LoginView = BaseView.extend({
 		el: $('#page_body'),
 		template: _.template( loginTemplate),
 		initialize: function() {
+			this._initialize();
 			console.log("LoginView.initialize");
 		},
 

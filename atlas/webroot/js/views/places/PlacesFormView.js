@@ -3,20 +3,22 @@ define([
 	'underscore',
 	'backbone',
 	'toastr',
+	'views/BaseView',
 
 	'models/Place',
 	'text!templates/places/form.html',
 	'views/MapView',
 
 	'router'
-], function($, _, Backbone, toastr, Place, placeFormTemplate, mapView){
+], function($, _, Backbone, toastr, BaseView, Place, placeFormTemplate, mapView){
 	console.log("PlacesFormView");
-	var UserFormView = Backbone.View.extend({
+	var UserFormView = BaseView.extend({
 		el: $('#page_body'),
 		template: _.template( placeFormTemplate),
 		place: null,
 
 		initialize: function() {
+			this._initialize();
 			console.log("PlacesFormView.initialize");
 		},
 
@@ -85,7 +87,7 @@ define([
 				indexed_array[n['name']] = n['value'];
 			});
 			return indexed_array;
-    	},
+    	}
 	});
 	return new UserFormView;
 });
