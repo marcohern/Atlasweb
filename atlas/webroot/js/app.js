@@ -63,6 +63,11 @@ define([
 		onBeforeSend(jqxhr);
 	};
 
+	$(document).ajaxComplete = function(event, jqxhr, options) {
+		console.log("document.ajaxComplete");
+		onComplete();
+	};
+
 	return {
 		initialize: function() {
 			
