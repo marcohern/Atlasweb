@@ -14,6 +14,7 @@ Router::scope('/', function ($routes) {
     $routes->extensions(['json']);
     $routes->resources('Users');
     $routes->resources('Places');
+    $routes->resources('Bars');
 });
 
 Plugin::routes();
