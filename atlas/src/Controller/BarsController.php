@@ -17,7 +17,11 @@ class BarsController extends AppController {
 	}
 
 	public function index() {
-		$bars = $this->Bars->find('all')->contain(['BarsWeekSchedules','BarsCategories']);
+		$conds = ['Bars.enabled' => 'TRUE'];
+		if (array_key_exists('category', $this->request->query)) {
+			$conds['BarsCategories.slug'] = $this->request->query['category'];
+		}
+		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where($conds);
 		$this->return_json($bars);
 	}
 
