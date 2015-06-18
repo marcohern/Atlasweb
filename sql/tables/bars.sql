@@ -12,6 +12,8 @@ CREATE TABLE bars (
 	phones      VARCHAR(64)    NOT NULL,
 	lng         DECIMAL(17,14) NOT NULL,
 	lat         DECIMAL(17,14) NOT NULL,
+	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
+	color		INTEGER        NOT NULL DEFAULT 0,
 	hits        INTEGER        NOT NULL DEFAULT 0,
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
