@@ -4,7 +4,7 @@ CREATE TABLE bars (
 	id          BIGINT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name        VARCHAR(64)    NOT NULL,
 	slug        VARCHAR(32)    NOT NULL UNIQUE,
-	category    VARCHAR(32)    NOT NULL,
+	category_id BIGINT         NOT NULL,
 	description MEDIUMTEXT     NOT NULL,
 	city        VARCHAR(32)    NOT NULL,
 	province    VARCHAR(32)    NOT NULL,

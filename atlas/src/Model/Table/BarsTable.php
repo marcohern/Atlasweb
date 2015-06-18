@@ -12,5 +12,9 @@ class BarsTable extends Table {
         $this->table('bars');
         $this->primaryKey('id');
         $this->hasMany('BarsWeekSchedules');
+        $this->belongsTo('BarsCategories', [
+        	'className' => 'BarsCategories',
+        	'foreignKey' => 'category_id'
+        ]);
     }
 }

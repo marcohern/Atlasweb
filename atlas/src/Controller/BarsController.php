@@ -17,12 +17,12 @@ class BarsController extends AppController {
 	}
 
 	public function index() {
-		$bars = $this->Bars->find('all');
+		$bars = $this->Bars->find('all')->contain(['BarsWeekSchedules','BarsCategories']);
 		$this->return_json($bars);
 	}
 
 	public function view($id) {
-		$bar = $this->Bars->find()->contain(['BarsWeekSchedules'])->where(['id' => $id])->first();
+		$bar = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where(['Bars.id' => $id])->first();
 		if ($bar) $this->return_json($bar);
 		else new AppError('bar not found');
 	}
