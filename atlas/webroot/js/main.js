@@ -13,7 +13,7 @@ require.config({
 });
 
 require([
-	'app',
+	'app','bootstrap',
 	function (App) {
 		console.log("main");
 		console.log(App);
