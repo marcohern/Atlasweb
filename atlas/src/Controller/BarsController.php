@@ -17,11 +17,20 @@ class BarsController extends AppController {
 	}
 
 	public function index() {
+		$limit = 5;
+		$offset = 0;
 		$conds = ['Bars.enabled' => 'TRUE'];
 		if (array_key_exists('category', $this->request->query)) {
 			$conds['BarsCategories.slug'] = $this->request->query['category'];
 		}
-		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where($conds);
+		if (array_key_exists('l', $this->request->query)) {
+			$limit = $this->request->query['l'];
+		}
+		if (array_key_exists('o', $this->request->query)) {
+			$offset = $this->request->query['o'];
+		}
+
+		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where($conds)->limit($limit)->offset($offset);
 		$this->return_json($bars);
 	}
 

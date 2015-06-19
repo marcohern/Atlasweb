@@ -5,6 +5,7 @@ CREATE TABLE bars (
 	name        VARCHAR(64)    NOT NULL,
 	slug        VARCHAR(32)    NOT NULL UNIQUE,
 	category_id BIGINT         NOT NULL,
+	franchise_id BIGINT            NULL,
 	description MEDIUMTEXT     NOT NULL,
 	city        VARCHAR(32)    NOT NULL,
 	province    VARCHAR(32)    NOT NULL,
@@ -17,6 +18,7 @@ CREATE TABLE bars (
 	hits        INTEGER        NOT NULL DEFAULT 0,
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
+	verified    ENUM('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
 	created     DATETIME       NOT NULL,
 	updated     DATETIME           NULL
 )CHARSET utf8 COLLATE utf8_general_ci;
