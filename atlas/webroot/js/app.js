@@ -4,7 +4,7 @@ define([
 	'backbone',
 	'toastr',
 	'config',
-	'router'
+	'Router'
 ], function($, _, Backbone, toastr, settings)
 {
 	console.log("app");

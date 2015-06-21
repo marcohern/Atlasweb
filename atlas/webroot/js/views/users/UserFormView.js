@@ -58,7 +58,7 @@ define([
         	this.user.save(data, {
         		success: function(model, response) {
         			console.log("UserFormView.requestSave success");
-					window.router.navigate('users', true);
+					App.appRouter.navigate('users', true);
         		},
         		error: function(model, response) {
         			console.log("UserFormView.requestSave error");
@@ -73,7 +73,7 @@ define([
 
 		gotoUsers: function(e) {
 			console.log("UserFormView.gotoUsers");
-			window.router.navigate('users', true);
+			App.appRouter.navigate('users', true);
 		}
 	});
 	return new UserFormView;

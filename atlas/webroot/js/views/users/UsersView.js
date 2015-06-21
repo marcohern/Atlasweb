@@ -43,7 +43,7 @@ define([
 
 		gotoUserAdd: function(e) {
 			console.log("UsersView.gotoUserAdd");
-			window.router.navigate('users/add', true);
+			App.appRouter.navigate('users/add', true);
 		},
 
 		deleteUser: function(e) {

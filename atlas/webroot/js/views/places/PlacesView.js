@@ -19,7 +19,7 @@ define([
 
 		gotoPlaceAdd: function() {
 			console.log("PlacesView.gotoPlaceAdd");
-			window.router.navigate('places/add', true);
+			App.appRouter.navigate('places/add', true);
 		},
 
 		deletePlace: function(e) {

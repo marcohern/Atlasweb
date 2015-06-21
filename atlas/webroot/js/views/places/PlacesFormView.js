@@ -61,7 +61,7 @@ define([
         	this.place.save(data, {
         		success: function(model, response) {
         			console.log("PlacesFormView.requestSave success");
-					window.router.navigate('places', true);
+					App.appRouter.navigate('places', true);
         		},
         		error: function(model, response) {
         			console.log("PlacesFormView.requestSave error");
@@ -76,7 +76,7 @@ define([
 
 		gotoPlaces: function(e) {
 			console.log("PlacesFormView.gotoPlaces");
-			window.router.navigate('places', true);
+			App.appRouter.navigate('places', true);
 		}
 	});
 	return new UserFormView;

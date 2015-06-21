@@ -18,7 +18,9 @@ define([
 	eventsView, routesView, loginView,
 	accountService, settings) {
 	console.log("Router");
-	var Router = Backbone.Router.extend({
+	window.App = (window.App || {});
+
+	window.App.Router = Backbone.Router.extend({
 		routes: {
 			'' : 'gotoHome',
 			'users'  : 'gotoUsers',
@@ -113,7 +115,7 @@ define([
 		}
 	});
 
-	window.router = new Router;
+	window.App.appRouter = new App.Router;
 
-	return Router;
+	window.App.appRouter;
 });

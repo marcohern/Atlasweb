@@ -54,7 +54,7 @@ define([
 			}
 
 			//render the menu
-			window.router.navigate('', true);
+			App.appRouter.navigate('', true);
 		},
 
 		onLoginFailure: function(error) {
