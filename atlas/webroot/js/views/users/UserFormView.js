@@ -17,6 +17,18 @@ define([
 		template: _.template( userFormTemplate),
 		user: null,
 
+		events: {
+			'click #user-save': 'requestSave',
+			'click #user-save-cancel': 'gotoUsers',
+		},
+
+		validations: {
+			'username': {
+				exp: /[a-zA-Z][a-zA-Z0-9._]*/,
+				maxchar: 32
+			}
+		},
+
 		initialize: function() {
 			this._initialize();
 			console.log("UserFormView.initialize");
@@ -44,16 +56,13 @@ define([
 			}
 		},
 
-		events: {
-			'click #user-save': 'requestSave',
-			'click #user-save-cancel': 'gotoUsers',
-		},
-
 		requestSave: function(e) {
 			console.log("UserFormView.requestSave");
-
-        	var data = this.getFormData( this.$el.find('form'));
+			var $form = this.$el.find('form');
+        	var data = this.getFormData($form);
         	console.log(data);
+        	var r = this.validate(data, $form);
+        	return;
         	var that = this;
         	this.user.save(data, {
         		success: function(model, response) {
