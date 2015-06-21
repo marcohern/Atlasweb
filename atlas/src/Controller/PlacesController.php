@@ -17,7 +17,10 @@ class PlacesController extends AppController {
 	}
 
 	public function index() {
-		$places = $this->Places->find('all');
+		$limit = $this->get_qlimit();
+		$offset = $this->get_qoffset();
+		$places = $this->Places->find('all')->limit($limit)->offset($offset);
+		//$count = $places->count();
 
 		$this->return_json($places);
 	}

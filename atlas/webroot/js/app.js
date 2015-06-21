@@ -8,8 +8,7 @@ define([
 ], function($, _, Backbone, toastr, settings)
 {
 	console.log("app");
-	console.log(window.appSettings.endpoint);
-
+	window.App = (window.App || {});
 	
 	toastr.options = {
 		"closeButton": false,
@@ -68,9 +67,7 @@ define([
 		onComplete();
 	};
 
-	return {
-		initialize: function() {
-			
-		}
-	};
+	Backbone.history.start();
+
+	return {};
 });

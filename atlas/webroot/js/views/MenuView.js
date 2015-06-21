@@ -4,7 +4,7 @@ define([
 	'backbone',
 
 	'text!templates/menu.html',
-	'router'
+	'Router'
 ], function($, _, Backbone, menuTemplate) {
 	console.log("MenuView");
 	

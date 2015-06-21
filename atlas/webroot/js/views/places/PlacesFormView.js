@@ -9,7 +9,7 @@ define([
 	'text!templates/places/form.html',
 	'views/MapView',
 
-	'router'
+	'Router'
 ], function($, _, Backbone, toastr, BaseView, Place, placeFormTemplate, mapView){
 	console.log("PlacesFormView");
 	var UserFormView = BaseView.extend({

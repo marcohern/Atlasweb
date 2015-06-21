@@ -9,7 +9,7 @@ define([
 	'models/User',
 	'text!templates/users/form.html',
 
-	'router'
+	'Router'
 ], function($, _, Backbone, toastr, BaseView, User, userFormTemplate){
 	console.log("UserFormView");
 	var UserFormView = BaseView.extend({

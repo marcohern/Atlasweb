@@ -36,6 +36,33 @@ class AppController extends Controller
         return $json;
     }
 
+    private function get_query_int($param, $default) {
+        $result = $default;
+        if (array_key_exists($param, $this->request->query)) {
+            $result = $this->request->query[$param];
+        }
+        if (!is_int($result)) {
+            return $default;
+        }
+        return $result;
+    }
+
+    protected function get_qlimit() {
+        return $this->get_query_int('l', 10);
+    }
+
+    protected function get_qoffset() {
+        return $this->get_query_int('o', 0);
+    }
+
+    protected function get_offset() {
+        $l = 10;
+        if (array_key_exists('l', $this->request->query)) {
+            $l = $this->request->query['l'];
+        }
+        return $l;
+    }
+
     protected function get_request() {
         $payload = $this->get_payload();
         $query = array_merge($payload, $this->request->query);
