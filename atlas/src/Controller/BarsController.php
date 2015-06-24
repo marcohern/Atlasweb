@@ -16,21 +16,37 @@ class BarsController extends AppController {
 		parent::beforeFilter($e);
 	}
 
-	public function index() {
-		$limit = 5;
-		$offset = 0;
-		$conds = ['Bars.enabled' => 'TRUE'];
+	private function apply_bar_category(&$conds) {
 		if (array_key_exists('category', $this->request->query)) {
 			$conds['BarsCategories.slug'] = $this->request->query['category'];
 		}
-		if (array_key_exists('l', $this->request->query)) {
-			$limit = $this->request->query['l'];
-		}
-		if (array_key_exists('o', $this->request->query)) {
-			$offset = $this->request->query['o'];
-		}
+	}
 
-		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where($conds)->limit($limit)->offset($offset);
+	private function apply_bar_q(&$conds) {
+		$q = $this->get_q();
+		$OR = [];
+		if (!empty($q)) {
+			$words = explode(' ', $q);
+			foreach ($words as $w) {
+				$ew = addslashes($w);
+				$OR[] = ["Bars.name LIKE" => "%$ew%"];
+				$OR[] = ["BarsFranchises.id IS NOT" => null,"BarsFranchises.name LIKE" => "%$ew%"];
+			}
+		}
+		$conds['OR'] = $OR;
+	}
+
+	public function index() {
+		$limit = $this->get_qlimit();
+		$offset = $this->get_qoffset();
+		$conds = ['Bars.enabled' => 'TRUE'];
+		$this->apply_bar_category($conds);
+		$this->apply_bar_q($conds);
+		$this->log($conds);
+
+		$bars = $this->Bars->find()
+			->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])
+			->where($conds)->limit($limit)->offset($offset);
 		$this->return_json($bars);
 	}
 

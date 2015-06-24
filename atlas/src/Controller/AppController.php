@@ -47,12 +47,27 @@ class AppController extends Controller
         return $result;
     }
 
+    private function get_query_string($param, $default) {
+        $result = $default;
+        if (array_key_exists($param, $this->request->query)) {
+            $result = $this->request->query[$param];
+        }
+        if (!is_string($result)) {
+            return $default;
+        }
+        return $result;
+    }
+
     protected function get_qlimit() {
         return $this->get_query_int('l', 10);
     }
 
     protected function get_qoffset() {
         return $this->get_query_int('o', 0);
+    }
+
+    protected function get_q() {
+        return $this->get_query_string('q', '');
     }
 
     protected function get_offset() {
