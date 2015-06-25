@@ -3,11 +3,14 @@ define([
 	'underscore',
 	'backbone',
 	'toastr',
+	'Router',
 	'text!templates/users/index.html',
 
 	'models/User',
-	'collections/UserCollection'
-], function($, _, Backbone, toastr, usersTemplate, User, UserCollection) {
+	'collections/UserCollection',
+
+	'views/users/UserFormView'
+], function($, _, Backbone, toastr, router, usersTemplate, User, UserCollection, userFormView) {
 	console.log("UsersView");
 	var UsersView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -37,13 +40,17 @@ define([
 		},
 
 		events: {
-			'click #user-add': 'gotoUserAdd',
 			'click .user-delete': 'deleteUser'
 		},
 
-		gotoUserAdd: function(e) {
-			console.log("UsersView.gotoUserAdd");
-			App.appRouter.navigate('users/add', true);
+		gotoAdd: function() {
+			console.log("UsersView.gotoAdd");
+			userFormView.render();
+		},
+
+		gotoEdit: function(id) {
+			console.log("UsersView.gotoAdd");
+			userFormView.render(id);
 		},
 
 		deleteUser: function(e) {
@@ -63,6 +70,6 @@ define([
 			});
 		}
 	});
-
-	return new UsersView;
+	router.views.users = new UsersView;
+	return router.views.users;
 });

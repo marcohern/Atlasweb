@@ -4,8 +4,13 @@ define([
 	'backbone',
 
 	'text!templates/menu.html',
+	'views/HomeView',
+	'views/users/UsersView',
+	'views/places/PlacesView',
+	'views/EventsView',
+	'views/RoutesView',
 	'Router'
-], function($, _, Backbone, menuTemplate) {
+], function($, _, Backbone, menuTemplate, homeView, usersView, placesView, eventsView, routesView, router) {
 	console.log("MenuView");
 	
 	var MenuView = Backbone.View.extend({
@@ -35,8 +40,57 @@ define([
 				this.$el.find(selector).parent().addClass('active');
 				console.log(selector);
 			}
+		},
+
+		displayOrHideMenu: function(displayMenu, selector) {
+			if (typeof displayMenu == 'boolean') {
+				if (displayMenu) {
+					if (!this.displayed) {
+						this.render();
+					}
+				} else {
+					if (this.displayed) {
+						this.unrender();
+					}
+				}
+			}
+			if (this.displayed) {
+				this.updateStatus(selector);
+			}
+		},
+
+		goto: function(view, selector, displayMenu, data) {
+			console.log("Router.goto");
+			this.displayOrHideMenu(displayMenu, selector);
+			view.render(data);
+		},
+
+		gotoHome: function() {
+			this.goto(homeView, '.goto-home', true);
+		},
+
+		gotoUsers: function() {
+			this.goto(usersView, '.goto-users', true);
+		},
+
+		gotoPlaces: function() {
+			this.goto(placesView, '.goto-places', true);
+		},
+
+		gotoEvents: function() {
+			this.goto(eventsView, '.goto-events', true);
+		},
+
+		gotoRoutes: function() {
+			this.goto(routesView, '.goto-routes', true);
+		},
+
+		gotoLogout: function() {
+			this.goto(logoutView, undefined, false);
 		}
 	});
 
-	return new MenuView;
+	router.views.menu = new MenuView;
+
+	return router.views.menu;
 });

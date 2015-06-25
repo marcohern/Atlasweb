@@ -4,13 +4,12 @@ define([
 	'underscore',
 	'backbone',
 	'toastr',
+	'Router',
 	'views/BaseView',
 
 	'models/User',
-	'text!templates/users/form.html',
-
-	'Router'
-], function($, _, Backbone, toastr, BaseView, User, userFormTemplate){
+	'text!templates/users/form.html'
+], function($, _, Backbone, toastr, router, BaseView, User, userFormTemplate){
 	console.log("UserFormView");
 	var UserFormView = BaseView.extend({
 		el: $('#page_body'),
@@ -82,7 +81,7 @@ define([
 
 		gotoUsers: function(e) {
 			console.log("UserFormView.gotoUsers");
-			App.appRouter.navigate('users', true);
+			router.navigate('users', true);
 		}
 	});
 	return new UserFormView;

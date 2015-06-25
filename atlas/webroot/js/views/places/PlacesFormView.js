@@ -3,14 +3,14 @@ define([
 	'underscore',
 	'backbone',
 	'toastr',
+	'Router',
 	'views/BaseView',
 
 	'models/Place',
 	'text!templates/places/form.html',
 	'views/MapView',
-
-	'Router'
-], function($, _, Backbone, toastr, BaseView, Place, placeFormTemplate, mapView){
+	'views/places/PlacesFormView'
+], function($, _, Backbone, toastr, router, BaseView, Place, placeFormTemplate, mapView, placesFormView){
 	console.log("PlacesFormView");
 	var UserFormView = BaseView.extend({
 		el: $('#page_body'),
@@ -74,9 +74,17 @@ define([
         	return false;
 		},
 
+		gotoAdd: function() {
+			placesFormView.render();
+		},
+
+		gotoEdit: function(id) {
+			placesFormView.render(id);
+		},
+
 		gotoPlaces: function(e) {
 			console.log("PlacesFormView.gotoPlaces");
-			App.appRouter.navigate('places', true);
+			router.navigate('places', true);
 		}
 	});
 	return new UserFormView;

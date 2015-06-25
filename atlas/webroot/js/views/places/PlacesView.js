@@ -2,10 +2,13 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
+	'Router',
+
 	'text!templates/places/index.html',
 	'models/Place',
-	'collections/PlaceCollection'
-], function($, _, Backbone, placesTemplate, Place, PlaceCollection) {
+	'collections/PlaceCollection',
+	'views/places/PlacesFormView'
+], function($, _, Backbone, router, placesTemplate, Place, PlaceCollection, placesFormView) {
 	console.log("PlacesView");
 	var PlacesView = Backbone.View.extend({
 		el: $('#page_body'),
@@ -13,13 +16,12 @@ define([
 		places: new PlaceCollection(),
 
 		events: {
-			'click #place-add': 'gotoPlaceAdd',
 			'click .place-delete': 'deletePlace'
 		},
 
-		gotoPlaceAdd: function() {
+		gotoAdd: function() {
 			console.log("PlacesView.gotoPlaceAdd");
-			App.appRouter.navigate('places/add', true);
+			placesFormView.render();
 		},
 
 		deletePlace: function(e) {
@@ -62,5 +64,6 @@ define([
 		}
 	});
 
-	return new PlacesView;
+	router.views.places = new PlacesView;
+	return router.views.places;
 });

@@ -4,8 +4,13 @@ define([
 	'backbone',
 	'toastr',
 	'config',
-	'Router'
-], function($, _, Backbone, toastr, settings)
+	'Router',
+
+	'views/MenuView',
+	'views/HomeView'
+], function($, _, Backbone, toastr, settings, router,
+
+	menuView, homeView)
 {
 	console.log("app");
 	window.App = (window.App || {});
