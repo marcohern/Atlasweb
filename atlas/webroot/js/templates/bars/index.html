@@ -1,0 +1,36 @@
+<div class="container">
+
+  <div>
+    <h1>Bars</h1>
+    <a id="bar-add" class="btn btn-info" href="#bars/add">+ New Bar</a>
+    <div class="pager" style="float:right">xxx</div>
+    <table class="table">
+    	<thead>
+    		<tr>
+    			<th>#</th>
+    			<th>name</th>
+    			<th>address</th>
+    			<th>&nbsp;</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<% _.each(bars, function (bar) { %>
+            <tr>
+    			<td><%= bar.get('id') %></td>
+    			<td><%= bar.get('name') %></td>
+    			<td><%= bar.get('address') %></td>
+    			<td>
+    				<a id="btn-bar-edit-<%= bar.get('id') %>" class="btn btn-info bar-edit" href="#bars/edit/<%= bar.get('id') %>">Edit</a>
+    				<a id="btn-bar-delete-<%= bar.get('id') %>" class="btn btn-danger bar-delete" data-bar-id="<%= bar.get('id') %>">Delete</a>
+    			</td>
+            </tr>
+    		<% }); %>
+    	</tbody>
+    </table>
+    <% if(error) { %>
+    	<p>Error while loading stuff</p>
+    	<button id="try-again" class="btn btn-info">Try Again</button>
+    <% }; %>
+  </div>
+
+</div><!-- /.container -->

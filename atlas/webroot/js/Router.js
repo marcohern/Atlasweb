@@ -12,6 +12,7 @@ define([
 			'' : 'gotoHome',
 			'users'  : 'gotoUsers',
 			'places' : 'gotoPlaces',
+			'bars'   : 'gotoBars',
 			'events' : 'gotoEvents',
 			'routes' : 'gotoRoutes',
 			'login'  : 'gotoLogin',
@@ -50,6 +51,10 @@ define([
 
 		gotoPlaces: function() {
 			this.views.menu.gotoPlaces();
+		},
+
+		gotoBars: function() {
+			this.views.menu.gotoBars();
 		},
 
 		gotoEvents: function() {

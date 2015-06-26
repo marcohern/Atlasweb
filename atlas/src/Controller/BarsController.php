@@ -33,7 +33,7 @@ class BarsController extends AppController {
 				$OR[] = ["BarsFranchises.id IS NOT" => null,"BarsFranchises.name LIKE" => "%$ew%"];
 			}
 		}
-		$conds['OR'] = $OR;
+		if (!empty($OR)) $conds['OR'] = $OR;
 	}
 
 	public function index() {
@@ -44,9 +44,12 @@ class BarsController extends AppController {
 		$this->apply_bar_q($conds);
 		$this->log($conds);
 
+
 		$bars = $this->Bars->find()
 			->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])
 			->where($conds)->limit($limit)->offset($offset);
+
+		//debug($bars);
 		$this->return_json($bars);
 	}
 

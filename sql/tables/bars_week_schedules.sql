@@ -7,6 +7,7 @@ CREATE TABLE bars_week_schedules(
 	end_week_day   ENUM('MON','TUE','WED','THU','FRI','SAT','SUN','*HOL') NULL DEFAULT 'MON',
 	start_day_time TIME NOT NULL,
 	end_day_time TIME NOT NULL,
+	sep CHAR(1) NOT NULL DEFAULT '-',
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
 	created     DATETIME       NOT NULL,
 	updated     DATETIME           NULL
