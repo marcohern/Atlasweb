@@ -9,8 +9,9 @@ define([
 	'views/places/PlacesView',
 	'views/EventsView',
 	'views/RoutesView',
+	'views/LoginView',
 	'Router'
-], function($, _, Backbone, menuTemplate, homeView, usersView, placesView, eventsView, routesView, router) {
+], function($, _, Backbone, menuTemplate, homeView, usersView, placesView, eventsView, routesView, loginView, router) {
 	console.log("MenuView");
 	
 	var MenuView = Backbone.View.extend({
@@ -85,8 +86,8 @@ define([
 			this.goto(routesView, '.goto-routes', true);
 		},
 
-		gotoLogout: function() {
-			this.goto(logoutView, undefined, false);
+		gotoLogin: function() {
+			this.goto(loginView, undefined, false);
 		}
 	});
 
