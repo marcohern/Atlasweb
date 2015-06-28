@@ -12,7 +12,7 @@ define([
 ], function($, _, Backbone, router, barsTemplate, Bar, BarCollection, PagerView) {
 	console.log("BarsView");
 	var BarsView = Backbone.View.extend({
-		el: $('#page_body'),
+		el: '#page_body',
 		template: _.template(barsTemplate),
 		bars: new BarCollection(),
 
@@ -46,15 +46,22 @@ define([
 			console.log("BarsView.initialize");
 		},
 
-		render: function() {
+		render: function(data) {
 			console.log("BarsView.render");
 			var that = this;
+			var page = 0;
+			if (typeof data !== 'undefined') {
+				if (typeof data.page !== 'undefined') {
+					page = data.page;
+				}
+			}
 			this.bars.fetch({
+				data:{l:10,o:10*page},
 				success: function() {
 					console.log("BarsView.render.success");
 					that.$el.html( that.template({bars: that.bars.models, error: false }));
 					var pagerView = new PagerView;
-					pagerView.render();
+					pagerView.render(page);
 					//mapView.render();
 				},
 				error: function(a,b,c) {

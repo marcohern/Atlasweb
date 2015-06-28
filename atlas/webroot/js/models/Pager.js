@@ -8,6 +8,7 @@ define([
 		defaults: {
 			total: 0,
 			url: '',
+			current: 0,
 			pages: new PageCollection
 		}
 	});

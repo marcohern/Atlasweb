@@ -7,8 +7,8 @@ define([
 		defaults: {
 			num: 0,
 			url: '',
-			l:10,
-			o:0
+			l  : 10,
+			o  : 0
 		}
 	});
 	return Page;

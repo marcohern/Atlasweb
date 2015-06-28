@@ -13,6 +13,7 @@ define([
 			'users'  : 'gotoUsers',
 			'places' : 'gotoPlaces',
 			'bars'   : 'gotoBars',
+			'bars/:page'   : 'gotoBars',
 			'events' : 'gotoEvents',
 			'routes' : 'gotoRoutes',
 			'login'  : 'gotoLogin',
@@ -53,8 +54,8 @@ define([
 			this.views.menu.gotoPlaces();
 		},
 
-		gotoBars: function() {
-			this.views.menu.gotoBars();
+		gotoBars: function(page) {
+			this.views.menu.gotoBars(page);
 		},
 
 		gotoEvents: function() {

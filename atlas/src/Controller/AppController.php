@@ -41,10 +41,10 @@ class AppController extends Controller
         if (array_key_exists($param, $this->request->query)) {
             $result = $this->request->query[$param];
         }
-        if (!is_int($result)) {
+        if (empty($result)) {
             return $default;
         }
-        return $result;
+        return 0+$result;
     }
 
     private function get_query_string($param, $default) {
@@ -68,14 +68,6 @@ class AppController extends Controller
 
     protected function get_q() {
         return $this->get_query_string('q', '');
-    }
-
-    protected function get_offset() {
-        $l = 10;
-        if (array_key_exists('l', $this->request->query)) {
-            $l = $this->request->query['l'];
-        }
-        return $l;
     }
 
     protected function get_request() {

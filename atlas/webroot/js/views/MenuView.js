@@ -79,8 +79,8 @@ define([
 			this.goto(placesView, '.goto-places', true);
 		},
 
-		gotoBars: function() {
-			this.goto(barsView, '.goto-bars', true);
+		gotoBars: function(page) {
+			this.goto(barsView, '.goto-bars', true, {page:page});
 		},
 
 		gotoEvents: function() {

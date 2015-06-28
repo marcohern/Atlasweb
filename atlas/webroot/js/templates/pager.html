@@ -1,17 +1,16 @@
+<% console.log(pager) %>
 <nav>
     <ul class="pagination">
-        <li="">
-            <a href="#" aria-label="Previous">
+        <li class="<%= (pager.get('prev') == null) ? 'disabled' : '' %>">
+            <a href="#<%= pager.get('url') %>/<%= pager.get('prev') %>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li ="">
-            <a href="#" aria-label="Next">
+        <% _.each(pager.get('pages').models, function (page) { %>
+        <li class="<%= (pager.get('current') == page.get('num')) ? 'active' : '' %>"><a href="#<%= pager.get('url') %>/<%= page.get('num') %>"><%= page.get('num') + 1 %></a></li>
+        <% }) %>
+        <li class="<%= (pager.get('next') == null) ? 'disabled' : '' %>">
+            <a href="#<%= pager.get('url') %>/<%= pager.get('next') %>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>
