@@ -14,6 +14,7 @@ define([
 		call: function (record, payload, success, error) {
 			console.log("jQueryAjaxService.call");
 			var url = settings.endpoint + record.uri;
+			var payload_str = (payload === null) ? null : JSON.stringify(payload);
 			console.log("calling " + url);
 			$.ajax({
 				url: url,
@@ -22,7 +23,7 @@ define([
 				contentType: 'application/json',
 				dataType: 'json',
 				processData: false,
-				data: JSON.stringify(payload),
+				data: payload_str,
 				success: function (data, status, jqXHR) {
 					console.log("success");
 					console.log(data);

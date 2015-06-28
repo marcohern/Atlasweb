@@ -70,6 +70,13 @@ class AppController extends Controller
         return $this->get_query_string('q', '');
     }
 
+    protected function is_count() {
+        if (array_key_exists('count', $this->request->query)) {
+            return true;
+        }
+        return false;
+    }
+
     protected function get_request() {
         $payload = $this->get_payload();
         $query = array_merge($payload, $this->request->query);

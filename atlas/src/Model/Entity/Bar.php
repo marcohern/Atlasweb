@@ -10,6 +10,9 @@ class Bar extends Entity
 
 	protected function _getImageUrl()
     {
-        return '/img/bar-headers/'.$this->_properties['slug'].'-hd.png';
+    	if (array_key_exists('slug', $this->_properties)) {
+        	return '/img/bar-headers/'.$this->_properties['slug'].'-hd.png';
+        }
+        return '';
     }
 }

@@ -7,9 +7,10 @@ define([
 	'text!templates/bars/index.html',
 	'models/Bar',
 	'collections/BarCollection',
-	'views/PagerView'
+	'views/PagerView',
+	'services/AccountService'
 	//'views/bars/BarFormView'
-], function($, _, Backbone, router, barsTemplate, Bar, BarCollection, PagerView) {
+], function($, _, Backbone, router, barsTemplate, Bar, BarCollection, PagerView, accountService) {
 	console.log("BarsView");
 	var BarsView = Backbone.View.extend({
 		el: '#page_body',
@@ -50,27 +51,36 @@ define([
 			console.log("BarsView.render");
 			var that = this;
 			var page = 0;
-			if (typeof data !== 'undefined') {
-				if (typeof data.page !== 'undefined') {
+			if (data) {
+				if (data.page) {
 					page = data.page;
 				}
 			}
-			this.bars.fetch({
-				data:{l:10,o:10*page},
-				success: function() {
-					console.log("BarsView.render.success");
-					that.$el.html( that.template({bars: that.bars.models, error: false }));
-					var pagerView = new PagerView;
-					pagerView.render(page);
-					//mapView.render();
+
+			accountService.bars.count(
+				function(count_data) {
+					console.log("BarsView.render.count.success");
+					that.bars.fetch({
+						data:{l:10,o:10*page},
+						success: function() {
+							console.log("BarsView.render.success");
+							that.$el.html( that.template({bars: that.bars.models, error: false }));
+							var pagerView = new PagerView;
+							pagerView.render(page, count_data[0].count);
+							//mapView.render();
+						},
+						error: function(a,b,c) {
+							console.log("BarsView.render.error");
+							console.log(a);
+							console.log(b);
+							that.$el.html( that.template({bars: [], error: true }));
+						}
+					});
 				},
-				error: function(a,b,c) {
-					console.log("BarsView.render.error");
-					console.log(a);
-					console.log(b);
-					that.$el.html( that.template({bars: [], error: true }));
+				function() {
+					console.log("BarsView.render.count.error");
 				}
-			});
+			);
 		}
 	});
 

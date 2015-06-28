@@ -44,10 +44,17 @@ class BarsController extends AppController {
 		$this->apply_bar_q($conds);
 		$this->log($conds);
 
-
-		$bars = $this->Bars->find()
-			->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])
-			->where($conds)->limit($limit)->offset($offset);
+		$bars = $this->Bars->find();
+			
+		if ($this->is_count()) {
+			$bars->select([
+				'count' => $bars->func()->count('*'),
+			])->where($conds);
+		} else {
+			$bars->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])
+				->where($conds)
+				->limit($limit)->offset($offset);
+		}
 
 		//debug($bars);
 		$this->return_json($bars);

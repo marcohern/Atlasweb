@@ -22,24 +22,28 @@ define([
 			console.log("PagerView.initialize");
 		},
 
-		render: function(page) {
+		render: function(page, count) {
 			var p = 0;
+			var limit = 10;
 			if (page != null) {
 				p = parseInt(page);
 			}
+
 			console.log("PagerView.render");
+			var numPages = Math.ceil(count/limit);
+			var lastPage = Math.floor(count/limit);
+			var pages = new PageCollection;
+			for (var i=0;i<numPages;i++) {
+				pages.add({num:i, o:i*limit , active:(p==i) ? true : false });
+			}
 			var pager = new Pager({
-				total: 3,
+				total: count,
 				url: 'bars',
 				limit: 10,
 				current: p,
 				prev: (p-1 < 0) ? null: p-1,
-				next: (p+1 > 3) ? null: p+1,
-				pages: new PageCollection([
-					new Page({num:0, o:0 , active:(p==0) ? true : false }),
-					new Page({num:1, o:10, active:(p==1) ? true : false }),
-					new Page({num:2, o:20, active:(p==2) ? true : false })
-				])
+				next: (p+1 > lastPage) ? null: p+1,
+				pages: pages
 			});
 			this.$el.html( this.template({pager:pager}));
 		}

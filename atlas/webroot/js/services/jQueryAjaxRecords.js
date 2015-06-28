@@ -4,6 +4,12 @@ define([], function() {
 		login: {
 			method: 'POST',
 			uri: '/account/login'
+		},
+		bars: {
+			count: {
+				method: 'GET',
+				uri:'/bars?count'
+			}
 		}
 	};
 });
