@@ -19,6 +19,7 @@ CREATE TABLE bars (
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
 	verified    ENUM('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
+	ex_image_url VARCHAR(255) NOT NULL DEFAULT '',
 	created     DATETIME       NOT NULL,
 	updated     DATETIME           NULL
 )CHARSET utf8 COLLATE utf8_general_ci;
