@@ -16,6 +16,7 @@ CREATE TABLE bars (
 	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	cover       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	color		ENUM('RED','GREEN','PINK','PURPLE','PURPLE_B','BLUE','BLUE_C','CYAN','CYAN_B','ORANGE','DEEP_ORANGE','BROWN','GRAY') NOT NULL,
+	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Electronica','Crossover') NOT NULL DEFAULT '',
 	hits        INTEGER        NOT NULL DEFAULT 0,
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
