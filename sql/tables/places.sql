@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS places;
 
 CREATE TABLE places (

@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS bars;
 
 CREATE TABLE bars (
@@ -7,8 +8,8 @@ CREATE TABLE bars (
 	category_id BIGINT         NOT NULL,
 	franchise_id BIGINT            NULL,
 	description MEDIUMTEXT     NOT NULL,
-	city        VARCHAR(32)    NOT NULL,
-	province    VARCHAR(32)    NOT NULL,
+	city_id     BIGINT		   NOT NULL,
+	zone_id     BIGINT		       NULL,
 	address     VARCHAR(255)   NOT NULL,
 	phones      VARCHAR(64)    NOT NULL,
 	lat         DECIMAL(17,14) NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE bars (
 	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	cover       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	color		ENUM('RED','GREEN','PINK','PURPLE','PURPLE_B','BLUE','BLUE_C','CYAN','CYAN_B','ORANGE','DEEP_ORANGE','BROWN','GRAY') NOT NULL,
-	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Electronica','Crossover') NOT NULL DEFAULT '',
+	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Cumbia','Electronica','Crossover') NOT NULL DEFAULT '',
 	hits        INTEGER        NOT NULL DEFAULT 0,
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',

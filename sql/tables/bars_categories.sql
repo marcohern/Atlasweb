@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS bars_categories;
 
 CREATE TABLE bars_categories (

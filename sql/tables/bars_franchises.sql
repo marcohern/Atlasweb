@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS bars_franchises;
 
 CREATE TABLE bars_franchises (

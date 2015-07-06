@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS bars_week_schedules;
 
 CREATE TABLE bars_week_schedules(

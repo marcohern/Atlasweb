@@ -1,4 +1,174 @@
 
+DROP TABLE IF EXISTS apps;
+
+CREATE TABLE apps (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	code VARCHAR(32) NOT NULL UNIQUE,
+	sender_id VARCHAR(32) NOT NULL,
+	sender_secret VARCHAR(32) NOT NULL,
+	permissions SET('users','places','events','routes') NOT NULL DEFAULT '',
+	created DATETIME NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+DROP TABLE IF EXISTS bars;
+
+CREATE TABLE bars (
+	id          BIGINT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name        VARCHAR(64)    NOT NULL,
+	slug        VARCHAR(32)    NOT NULL UNIQUE,
+	category_id BIGINT         NOT NULL,
+	franchise_id BIGINT            NULL,
+	description MEDIUMTEXT     NOT NULL,
+	city_id     BIGINT		   NOT NULL,
+	zone_id     BIGINT		       NULL,
+	address     VARCHAR(255)   NOT NULL,
+	phones      VARCHAR(64)    NOT NULL,
+	lat         DECIMAL(17,14) NOT NULL,
+	lng         DECIMAL(17,14) NOT NULL,
+	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
+	cover       DECIMAL(15,2)  NOT NULL DEFAULT 0,
+	color		ENUM('RED','GREEN','PINK','PURPLE','PURPLE_B','BLUE','BLUE_C','CYAN','CYAN_B','ORANGE','DEEP_ORANGE','BROWN','GRAY') NOT NULL,
+	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Cumbia','Electronica','Crossover') NOT NULL DEFAULT '',
+	hits        INTEGER        NOT NULL DEFAULT 0,
+	likes       INTEGER        NOT NULL DEFAULT 0,
+	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
+	verified    ENUM('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
+	ex_image_url VARCHAR(255) NOT NULL DEFAULT '',
+	created     DATETIME       NOT NULL,
+	updated     DATETIME           NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_categories;
+
+CREATE TABLE bars_categories (
+	id          BIGINT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	slug		VARCHAR(32)    NOT NULL,
+	name        VARCHAR(64)    NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_cities;
+
+CREATE TABLE bars_cities (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64) NOT NULL,
+	slug VARCHAR(32) NOT NULL UNIQUE,
+	province_id BIGINT NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_countries;
+
+CREATE TABLE bars_countries (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64) NOT NULL,
+	slug VARCHAR(32) NOT NULL UNIQUE,
+	iso2 CHAR(2) NOT NULL UNIQUE,
+	iso3 CHAR(3) NOT NULL UNIQUE
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_franchises;
+
+CREATE TABLE bars_franchises (
+	id          BIGINT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	slug		VARCHAR(32)    NOT NULL,
+	name        VARCHAR(64)    NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_provinces;
+
+CREATE TABLE bars_provinces (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64) NOT NULL,
+	slug VARCHAR(32) NOT NULL UNIQUE,
+	country_id BIGINT NOT NULL,
+	iso2 CHAR(6) NOT NULL UNIQUE
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_week_schedules;
+
+CREATE TABLE bars_week_schedules(
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	bar_id BIGINT NOT NULL,
+	start_week_day ENUM('MON','TUE','WED','THU','FRI','SAT','SUN','*HOL') NOT NULL DEFAULT 'MON',
+	end_week_day   ENUM('MON','TUE','WED','THU','FRI','SAT','SUN','*HOL') NULL DEFAULT 'MON',
+	start_day_time TIME NOT NULL,
+	end_day_time TIME NOT NULL,
+	sep CHAR(1) NOT NULL DEFAULT '-',
+	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
+	created     DATETIME       NOT NULL,
+	updated     DATETIME           NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_zones;
+
+CREATE TABLE bars_zones (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64) NOT NULL,
+	slug VARCHAR(32) NOT NULL UNIQUE,
+	city_id BIGINT NOT NULL,
+	lat         DECIMAL(17,14) NOT NULL,
+	lng         DECIMAL(17,14) NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS places;
+
+CREATE TABLE places (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(64) NOT NULL,
+	description MEDIUMTEXT NOT NULL,
+	lng DECIMAL(17,14) NOT NULL,
+	lat DECIMAL(17,14) NOT NULL,
+	enabled ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
+	created DATETIME
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS tokens;
+
+CREATE TABLE tokens (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	user_id BIGINT NOT NULL,
+	token CHAR(32) NOT NULL UNIQUE,
+	created DATETIME NOT NULL,
+	expires DATETIME NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(32) NOT NULL UNIQUE,
+	email VARCHAR(128) NOT NULL UNIQUE,
+	password CHAR(64) NOT NULL,
+	salt  CHAR(40) NOT NULL,
+	fname VARCHAR(64) NOT NULL,
+	lname VARCHAR(64) NOT NULL,
+	role ENUM('ADMIN','USER') NOT NULL DEFAULT 'USER',
+	created DATETIME NOT NULL,
+	updated DATETIME NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS  TokensDeleteExpired$$
+
+CREATE PROCEDURE TokensDeleteExpired()
+BEGIN
+	DELETE FROM tokens WHERE expires > NOW();
+END$$
+
+DELIMITER ;
+
+
 -- Bars
 INSERT INTO bars(id,name,slug,category_id,franchise_id,city_id,zone_id,address,phones,ex_image_url,lat,lng,cover,price,color,genre,description,created) VALUES
 (1,'BBC Andino','bbc-andino',1,1,1,2,'Cra. 12 No. 83-33','(1)7429292 ext. 311','http://media-cdn.tripadvisor.com/media/photo-s/05/e1/76/20/bogota-beer-company.jpg',4.667483,-74.053242,0,22000,'CYAN','Pop,Rock,Crossover','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu laoreet neque. Vestibulum scelerisque mi a quam faucibus consequat. Duis egestas hendrerit odio, vel scelerisque neque accumsan in. Ut sed metus nisl. Sed ipsum risus, finibus in urna quis, porttitor imperdiet mi. Praesent mattis nunc luctus aliquam aliquam. Cras fermentum sagittis nunc ac dapibus. Vivamus et felis ipsum. Nunc eget quam neque. In ut diam ut felis bibendum luctus eget sit amet risus. Donec eu urna eu metus efficitur gravida. Vivamus non massa eros. Nulla facilisi. Quisque pulvinar auctor nisi eleifend sollicitudin. Integer feugiat tempus metus in tempus. Nullam tempor lorem a justo elementum tincidunt.',NOW()),
@@ -46,4 +216,71 @@ INSERT INTO bars(id,name,slug,category_id,franchise_id,city_id,zone_id,address,p
 (43,'Hollywood Casino','hollywood-casino',6,NULL,1,15,'Centro Comercial Bulevar Niza – Local 181','2265613','http://res.cloudinary.com/civico/image/upload/v1421793837/entity/image/file/5e5/000/51ce0c6c31e93c40670005e5.jpg',4.712027,-74.07166,0,43000,'GREEN','Lounge','Cras quam ipsum, volutpat id imperdiet ut, tincidunt id arcu. Sed ligula nisl, rutrum vel elementum in, interdum vel orci. Duis iaculis nibh eget auctor congue. Quisque ac nulla quis ex aliquet efficitur. Nam ut magna ut diam faucibus maximus. Duis rutrum nec urna eu tincidunt. Aenean porta diam vel mi aliquam, eu eleifend ligula sollicitudin. Nullam non posuere sapien. Pellentesque imperdiet enim vitae consequat placerat. Aliquam malesuada, urna id aliquam imperdiet, nulla dolor feugiat velit, sed accumsan nibh libero sit amet ipsum. Sed bibendum dolor molestie purus rutrum, lobortis ultrices dui cursus.',NOW()),
 (44,'La Villa','la-villa',2,NULL,1,2,'Cra. 14a #83-56','313 236 4413','http://static.wixstatic.com/media/01b297_99c833ab1ece455c87e668306dc2bd1b.jpg_srb_p_1197_798_75_22_0.50_1.20_0.00_jpg_srb',4.668928,-74.055085,15000,22000,'RED','Rock,Crossover,Pop,Reggae,Ska,Rap,Reggaeton,Salsa,Electronica','Vivamus feugiat eros sodales bibendum lobortis. Etiam congue risus quam, ut vehicula enim consectetur sit amet. Cras fermentum metus non odio luctus lacinia. Ut tempor eleifend lorem vitae lobortis. In consectetur tristique tempor. Vivamus eleifend hendrerit lorem. Fusce sit amet sodales sapien. Donec tempus diam ut magna laoreet pellentesque. Maecenas facilisis nisi sit amet eros mattis mollis. Donec placerat, risus ut lobortis mattis, tellus sapien tempor nunc, tristique egestas lacus massa ac orci. Vivamus sed augue non felis semper finibus et eu nibh. Quisque rutrum massa et sem pharetra pellentesque. Praesent elit lectus, efficitur sed aliquet vitae, finibus et felis. Proin eu risus vehicula nulla suscipit tincidunt ac eget mauris. In at egestas enim.',NOW()),
 (45,'Simona','simona',2,NULL,1,2,'Cll 84 No 14 - 60','301 3717552','https://fbcdn-sphotos-c-a.akamaihd.net/hphotos-ak-xta1/v/t1.0-9/10929159_830172950362478_5542276870089899145_n.jpg?oh=77fecdf4bfd0c86b1d58950f42dff495&oe=5622A727&__gda__=1444003502_0eb0951549b99f3692997202de02122f',4.669257,-74.055166,8000,26000,'CYAN','Reggae,Reggaeton,Pop,Salsa,Cumbia','Nam dolor urna, hendrerit id nisi non, volutpat porttitor mauris. Suspendisse fermentum erat sed finibus vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris eros sapien, tristique a ultrices quis, congue a libero. Nullam nec pharetra justo, ut semper nunc. Vivamus ut pulvinar felis. Duis sem arcu, feugiat at quam fringilla, viverra condimentum orci. Vivamus ut odio orci. Vestibulum et elementum lacus, et aliquet lorem.',NOW());
+
+INSERT INTO bars_categories(id, slug, name) VALUES
+(1, 'bar','Bar'),
+(2, 'disco','Discoteca'),
+(3, 'restaurant','Restaurante'),
+-- (4, 'xxx','Xxx'),
+-- (5, 'disco-gay','Discoteca Gay'),
+(6, 'casino','Casino');
+
+
+INSERT INTO bars_cities (id, name, slug, province_id) VALUES
+(1,'Bogotá','bogota',1);
+
+
+INSERT INTO bars_countries(id, name, slug, iso2, iso3) VALUES
+(1, 'Colombia','colombia','CO','COL');
+
+
+-- BarFranchises
+INSERT INTO bars_franchises(id, name, slug) VALUES
+(1,'Bogotá Beer Company','bbc'),
+(2,'Joshua','joshua'),
+(5,'The Irish Pub','irish-pub'),
+(6,'Casino Caribe','casino-caribe'),
+(7,'Casino Broadway','casino-broadway');
+
+INSERT INTO bars_provinces (id, name, slug, country_id, iso2) VALUES
+(1,'Cundinamarca','cundinamarca',1,'CO-CUN');
+
+INSERT INTO bars_week_schedules(id, bar_id, start_week_day, end_week_day, start_day_time, end_day_time, sep, created) VALUES
+( 1,1,'MON','SAT' ,'17:00:00','23:30:00','-',NOW()),
+( 2,1,'SUN','*HOL','18:00:00','21:30:00','/',NOW()),
+( 3,2,'MON','SAT' ,'17:00:00','23:30:00','-',NOW()),
+( 4,2,'SUN','*HOL','18:00:00','21:30:00','/',NOW()),
+( 5,3,'MON','SAT' ,'17:00:00','23:30:00','-',NOW()),
+( 6,3,'SUN','*HOL','18:00:00','21:30:00','/',NOW()),
+( 7,4,'MON','SAT' ,'17:00:00','23:30:00','-',NOW()),
+( 8,4,'SUN','*HOL','18:00:00','21:30:00','/',NOW()),
+( 9,5,'MON','SAT' ,'17:00:00','23:30:00','-',NOW()),
+(10,5,'SUN','*HOL','18:00:00','21:30:00','/',NOW());
+
+
+-- BarZones
+INSERT INTO bars_zones(id, name, slug, city_id, lat, lng) VALUES
+(1,'Usaquén','usaquen',1,4.705027,-74.041023),
+(2,'Chapinero','chapinero',1,4.647541,-74.061965),
+(3,'Santafé','santafe',1,4.609704,-74.070785),
+(4,'Candelaria','candelaria',1,4.595789,-74.073308),
+(5,'San Cristobal','san-cristobal',1,4.560488,-74.090732),
+(6,'Usme','usme',1,4.505131,-74.109213),
+(7,'Suba','suba',1,4.73723,-74.081963),
+(8,'Barrios Unidos','barrios-unidos',1,4.665674,-74.076545),
+(9,'Teusaquillo','teusaquillo',1,4.63956,-74.082428),
+(10,'Mártires','martires',1,4.606901,-74.087174),
+(11,'Antonio Nariño','antonio-narino',1,4.590452,-74.10348),
+(12,'Rafael Uribe','rafael-uribe',1,4.565505,-74.114191),
+(13,'Tunjuelito','tunjuelito',1,4.567682,-74.132271),
+(14,'Ciudad Bolivar','ciudad-bolivar',1,4.569991,-74.158924),
+(15,'Engativá','engativa',1,4.705794,-74.112824),
+(16,'Fontibón','fontibon',1,4.674542,-74.143316),
+(17,'Puente Aranda','puente-aranda',1,4.613611,-74.113973),
+(18,'Kennedy','kennedy',1,4.629304,-74.150161),
+(19,'Bosa','bosa',1,4.609429,-74.18856);
+
+
+INSERT INTO users(id,username,email,password,salt,fname,lname,role,created) VALUES
+(1, 'marcohern', 'marcohern@gmail.com', 'ea049c8ad4d6a10bf271c74dcaee59edaaf0bbc78a452ebad4a0a3bf2b39d7e9', '3W0svqRVLqZG9ouYxhYtfAvr9gIzzNG5m6IRILF', 'Marco', 'Hernandez', 'ADMIN', NOW());
 
