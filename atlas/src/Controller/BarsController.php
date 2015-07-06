@@ -9,7 +9,7 @@ class BarsController extends AppController {
         $this->log("BarsController.initialize");
 		parent::initialize();
 
-        $this->Soteira->allow(['index','view','add','edit','delete']);
+        $this->Soteira->allow(['index','near','view','add','edit','delete']);
 	}
 
 	public function beforeFilter(Event $e) {
@@ -36,6 +36,21 @@ class BarsController extends AppController {
 		if (!empty($OR)) $conds['OR'] = $OR;
 	}
 
+	public function near() {
+		$lat = $this->get_query_numeric('lat',0.0);//4.665352733333333333;
+		$lng = $this->get_query_numeric('lng',0.0);//-74.070351933333333333;
+		$r = $this->get_query_numeric('r',2.0);
+		$eradius = 6371;
+		$q = $this->Bars->find()->where(['Bars.enabled' => 'TRUE']);
+		$q->select(['id','slug', 'lat','lng',
+			'distance' => "( $eradius * acos( cos( radians($lat) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($lng) ) + sin( radians($lat) ) * sin( radians( lat ) ) ) )"
+		])->having(['distance <=' => $r]);
+		//debug($q);
+		$this->return_json($q);
+		//( 6371 * acos( cos( radians(@lat) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(@lng) ) + sin( radians(@lat) ) * sin( radians( lat ) ) ) ) AS distance 
+		
+	}
+
 	public function index() {
 		$limit = $this->get_qlimit();
 		$offset = $this->get_qoffset();
@@ -44,15 +59,14 @@ class BarsController extends AppController {
 		$this->apply_bar_q($conds);
 		$this->log($conds);
 
-		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises']);
+		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])->where($conds);
 			
 		if ($this->is_count()) {
 			$bars->select([
 				'count' => $bars->func()->count('*'),
-			])->where($conds);
+			]);
 		} else {
-			$bars->where($conds)
-				->limit($limit)->offset($offset);
+			$bars->limit($limit)->offset($offset);
 		}
 
 		//debug($bars);

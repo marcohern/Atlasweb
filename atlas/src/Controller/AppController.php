@@ -58,6 +58,18 @@ class AppController extends Controller
         return $result;
     }
 
+    protected function get_query_numeric($param, $default) {
+        $result = $default;
+        if (array_key_exists($param, $this->request->query)) {
+            $result = $this->request->query[$param];
+        }
+        $result = 0+$result;
+        if (empty($result)) {
+            return $default;
+        }
+        return 0+$result;
+    }
+
     protected function get_qlimit() {
         return $this->get_query_int('l', 10);
     }
