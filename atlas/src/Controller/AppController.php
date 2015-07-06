@@ -89,6 +89,13 @@ class AppController extends Controller
         return false;
     }
 
+    protected function is_extended() {
+        if (array_key_exists('extended', $this->request->query)) {
+            return true;
+        }
+        return false;
+    }
+
     protected function get_request() {
         $payload = $this->get_payload();
         $query = array_merge($payload, $this->request->query);

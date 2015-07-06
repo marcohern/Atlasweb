@@ -5,6 +5,35 @@ use Cake\Event\Event;
 
 class BarsController extends AppController {
 
+	private $index_fields = [
+		'Bars.id','Bars.name','Bars.slug','Bars.address','Bars.color','Bars.price','Bars.cover','Bars.enabled','Bars.ex_image_url',
+		'Bars.city_id','Bars.zone_id','Bars.category_id','Bars.franchise_id','Bars.lat','Bars.lng'
+	];
+	private $index_contains = ['BarsCategories','BarsFranchises'];
+
+	private $detail_fields = [
+		//Bar attributes
+		'Bars.id','Bars.name','Bars.slug','Bars.description',
+		'Bars.address','Bars.phones','Bars.lat','Bars.lng','Bars.price','Bars.cover','Bars.color','Bars.genre','Bars.hits','Bars.likes',
+		'Bars.enabled','Bars.verified','Bars.ex_image_url','Bars.created','Bars.updated',
+
+		//Bar foreign keys
+		'Bars.category_id','Bars.franchise_id','Bars.city_id','Bars.zone_id',
+
+		//City
+		'BarsCities.id','BarsCities.name','BarsCities.slug',
+
+		//Zones
+		'BarsZones.id','BarsZones.name','BarsZones.slug','BarsZones.lat','BarsZones.lng',
+
+		//Categories
+		'BarsCategories.id','BarsCategories.name','BarsCategories.slug',
+
+		//Franchises
+		'BarsFranchises.id','BarsFranchises.name','BarsFranchises.slug',
+	];
+	private $detail_contains = ['BarsCities','BarsZones','BarsCategories','BarsFranchises','BarsWeekSchedules'];
+
 	public function initialize() {
         $this->log("BarsController.initialize");
 		parent::initialize();
@@ -37,18 +66,17 @@ class BarsController extends AppController {
 	}
 
 	public function near() {
+
 		$lat = $this->get_query_numeric('lat',0.0);//4.665352733333333333;
 		$lng = $this->get_query_numeric('lng',0.0);//-74.070351933333333333;
 		$r = $this->get_query_numeric('r',2.0);
 		$eradius = 6371;
+		$fields = $this->index_fields;
+		$fields['distance'] = "($eradius * ACOS(COS(RADIANS($lat))*COS(RADIANS(lat))*COS(RADIANS(lng)-RADIANS($lng))+SIN(RADIANS($lat))*SIN(RADIANS(lat))))";
 		$q = $this->Bars->find()->where(['Bars.enabled' => 'TRUE']);
-		$q->select(['id','slug', 'lat','lng',
-			'distance' => "( $eradius * acos( cos( radians($lat) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians($lng) ) + sin( radians($lat) ) * sin( radians( lat ) ) ) )"
-		])->having(['distance <=' => $r]);
+		$q->select($fields)->having(['distance <=' => $r]);
 		//debug($q);
 		$this->return_json($q);
-		//( 6371 * acos( cos( radians(@lat) ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(@lng) ) + sin( radians(@lat) ) * sin( radians( lat ) ) ) ) AS distance 
-		
 	}
 
 	public function index() {
@@ -59,22 +87,28 @@ class BarsController extends AppController {
 		$this->apply_bar_q($conds);
 		$this->log($conds);
 
-		$bars = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories','BarsFranchises'])->where($conds);
+		$bars = $this->Bars->find()
+			->contain($this->index_contains)
+			->where($conds);
 			
 		if ($this->is_count()) {
 			$bars->select([
 				'count' => $bars->func()->count('*'),
 			]);
 		} else {
-			$bars->limit($limit)->offset($offset);
+			$bars->select($this->index_fields)->limit($limit)->offset($offset);
 		}
-
 		//debug($bars);
 		$this->return_json($bars);
 	}
 
 	public function view($id) {
-		$bar = $this->Bars->find()->contain(['BarsWeekSchedules','BarsCategories'])->where(['Bars.id' => $id])->first();
+		$bar = $this->Bars->find()
+			->select($this->detail_fields)
+			->contain($this->detail_contains)
+			->where(['Bars.id' => $id])
+			->first();
+
 		if ($bar) $this->return_json($bar);
 		else new AppError('bar not found');
 	}

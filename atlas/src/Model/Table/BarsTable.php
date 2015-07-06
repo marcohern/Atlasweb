@@ -20,5 +20,13 @@ class BarsTable extends Table {
             'className' => 'BarsFranchises',
             'foreignKey' => 'franchise_id'
         ]);
+        $this->belongsTo('BarsCities', [
+            'className' => 'BarsCities',
+            'foreignKey' => 'city_id'
+        ]);
+        $this->belongsTo('BarsZones', [
+            'className' => 'BarsZones',
+            'foreignKey' => 'zone_id'
+        ]);
     }
 }

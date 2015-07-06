@@ -12,7 +12,7 @@ define([
 	'config',
 
 	'Router'
-], function($, _, Backbone, toastr, BaseView, menuView, accountService, loginTemplate, settings){
+], function($, _, Backbone, toastr, BaseView, menuView, accountService, loginTemplate, settings, router){
 	console.log('LoginView');
 	LoginView = BaseView.extend({
 		el: $('#page_body'),
@@ -43,7 +43,7 @@ define([
 		onLoginSuccess: function(data) {
 			console.log('LoginView.onLoginSuccess');
 
-			console.log(router);
+			//console.log(router);
 
 			//save the token
 			settings.token = data.token;
@@ -54,7 +54,7 @@ define([
 			}
 
 			//render the menu
-			App.appRouter.navigate('', true);
+			router.navigate('', true);
 		},
 
 		onLoginFailure: function(error) {
