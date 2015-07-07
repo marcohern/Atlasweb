@@ -15,6 +15,8 @@ Router::scope('/', function ($routes) {
     $routes->resources('Users');
     $routes->resources('Places');
     $routes->resources('Bars');
+    $routes->resources('BarsCategories');
+    $routes->resources('BarsGenres');
 });
 
 Plugin::routes();
