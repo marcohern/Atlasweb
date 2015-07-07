@@ -88,15 +88,20 @@ class BarsController extends AppController {
 		$this->log($conds);
 
 		$bars = $this->Bars->find()
-			->contain($this->index_contains)
 			->where($conds);
-			
+
 		if ($this->is_count()) {
+
 			$bars->select([
-				'count' => $bars->func()->count('*'),
-			]);
+				'count' => $bars->func()->count('*')
+			])->contain($this->index_contains);
+			
 		} else {
-			$bars->select($this->index_fields)->limit($limit)->offset($offset);
+
+			$bars->select($this->index_fields)
+				->contain($this->index_contains)
+				->limit($limit)
+				->offset($offset);
 		}
 		//debug($bars);
 		$this->return_json($bars);

@@ -96,6 +96,13 @@ class AppController extends Controller
         return false;
     }
 
+    protected function is_min() {
+        if (array_key_exists('min', $this->request->query)) {
+            return true;
+        }
+        return false;
+    }
+
     protected function get_request() {
         $payload = $this->get_payload();
         $query = array_merge($payload, $this->request->query);
