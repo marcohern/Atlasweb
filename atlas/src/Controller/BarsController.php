@@ -15,7 +15,7 @@ class BarsController extends AppController {
 		//Bar attributes
 		'Bars.id','Bars.name','Bars.slug','Bars.description',
 		'Bars.address','Bars.phones','Bars.lat','Bars.lng','Bars.price','Bars.cover','Bars.color','Bars.genre','Bars.hits','Bars.likes',
-		'Bars.enabled','Bars.verified','Bars.ex_image_url','Bars.created','Bars.updated',
+		'Bars.enabled','Bars.verified','Bars.ex_image_url','Bars.created','Bars.updated', 'Bars.payment', 'Bars.web_url',
 
 		//Bar foreign keys
 		'Bars.category_id','Bars.franchise_id','Bars.city_id','Bars.zone_id',
@@ -82,11 +82,16 @@ class BarsController extends AppController {
 		$lat = $this->get_query_numeric('lat',0.0);//4.665352733333333333;
 		$lng = $this->get_query_numeric('lng',0.0);//-74.070351933333333333;
 		$r = $this->get_query_numeric('r',2.0);
+
+		$conds = ['Bars.enabled' => 'TRUE'];
+		$this->apply_bar_category($conds);
+		$this->apply_bar_zone($conds);
+
 		$eradius = 6371;
 		$fields = $this->index_fields;
-		$fields['distance'] = "($eradius * ACOS(COS(RADIANS($lat))*COS(RADIANS(lat))*COS(RADIANS(lng)-RADIANS($lng))+SIN(RADIANS($lat))*SIN(RADIANS(lat))))";
-		$q = $this->Bars->find()->where(['Bars.enabled' => 'TRUE']);
-		$q->select($fields)->having(['distance <=' => $r]);
+		$fields['distance'] = "($eradius * ACOS(COS(RADIANS($lat))*COS(RADIANS(Bars.lat))*COS(RADIANS(Bars.lng)-RADIANS($lng))+SIN(RADIANS($lat))*SIN(RADIANS(Bars.lat))))";
+		$q = $this->Bars->find();
+		$q->select($fields)->contain($this->index_contains)->where($conds)->having(['distance <=' => $r]);
 		//debug($q);
 		$this->return_json($q);
 	}

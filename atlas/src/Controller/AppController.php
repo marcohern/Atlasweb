@@ -2,7 +2,7 @@
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-
+use Cake\I18n\Time;
 
 define("APP_ACCEPT_JSON",'application/json');
 
@@ -16,6 +16,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Soteira');
         $this->layout = 'blank';
+        Time::setToStringFormat('YYYY-MM-dd HH:mm:ss');
     }
 
     protected function return_json($data) {

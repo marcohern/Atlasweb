@@ -28,7 +28,7 @@ CREATE TABLE bars (
 	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	cover       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	color		ENUM('RED','GREEN','PINK','PURPLE','PURPLE_B','BLUE','BLUE_C','CYAN','CYAN_B','ORANGE','DEEP_ORANGE','BROWN','GRAY') NOT NULL,
-	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Cumbia','Electronica','Crossover') NOT NULL DEFAULT '',
+	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Cumbia','Electronica','Crossover','Bailables') NOT NULL DEFAULT '',
 	hits        INTEGER        NOT NULL DEFAULT 0,
 	likes       INTEGER        NOT NULL DEFAULT 0,
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
@@ -75,6 +75,15 @@ CREATE TABLE bars_franchises (
 	id          BIGINT         NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	slug		VARCHAR(32)    NOT NULL,
 	name        VARCHAR(64)    NOT NULL
+)CHARSET utf8 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS bars_genres;
+
+CREATE TABLE bars_genres(
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(32) NOT NULL,
+	slug VARCHAR(32) NOT NULL UNIQUE
 )CHARSET utf8 COLLATE utf8_general_ci;
 
 
@@ -241,6 +250,23 @@ INSERT INTO bars_franchises(id, name, slug) VALUES
 (5,'The Irish Pub','irish-pub'),
 (6,'Casino Caribe','casino-caribe'),
 (7,'Casino Broadway','casino-broadway');
+INSERT INTO bars_genres(id, name, slug) VALUES
+(1,'Rock','rock'),
+(2,'Pop','pop'),
+(3,'Rap','rap'),
+(4,'Ska','ska'),
+(5,'Reggae','reggae'),
+(6,'Blues','blues'),
+(7,'Jazz','jazz'),
+(8,'Lounge','lounge'),
+(9,'Clasica','clasica'),
+(10,'Reggaeton','reggaeton'),
+(11,'Salsa','salsa'),
+(12,'Cumbia','cumbia'),
+(13,'Electronica','electronica'),
+(14,'Crossover','crossover'),
+(15,'Bailables','bailables');
+
 
 INSERT INTO bars_provinces (id, name, slug, country_id, iso2) VALUES
 (1,'Cundinamarca','cundinamarca',1,'CO-CUN');

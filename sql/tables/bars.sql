@@ -16,6 +16,7 @@ CREATE TABLE bars (
 	lng         DECIMAL(17,14) NOT NULL,
 	price       DECIMAL(15,2)  NOT NULL DEFAULT 0,
 	cover       DECIMAL(15,2)  NOT NULL DEFAULT 0,
+	payment     SET('CASH','DEBITCARD','CREDITCARD') NOT NULL DEFAULT 'CASH',
 	color		ENUM('RED','GREEN','PINK','PURPLE','PURPLE_B','BLUE','BLUE_C','CYAN','CYAN_B','ORANGE','DEEP_ORANGE','BROWN','GRAY') NOT NULL,
 	genre		SET('Rock','Pop','Rap','Ska','Reggae','Blues','Jazz','Lounge','Clasica','Reggaeton','Salsa','Cumbia','Electronica','Crossover','Bailables') NOT NULL DEFAULT '',
 	hits        INTEGER        NOT NULL DEFAULT 0,
@@ -23,6 +24,7 @@ CREATE TABLE bars (
 	enabled     ENUM('TRUE','FALSE') NOT NULL DEFAULT 'TRUE',
 	verified    ENUM('TRUE','FALSE') NOT NULL DEFAULT 'FALSE',
 	ex_image_url VARCHAR(255) NOT NULL DEFAULT '',
+	web_url      VARCHAR(255) NOT NULL DEFAULT '',
 	created     DATETIME       NOT NULL,
 	updated     DATETIME           NULL
 )CHARSET utf8 COLLATE utf8_general_ci;
