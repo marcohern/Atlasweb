@@ -9,7 +9,7 @@ class BarsController extends AppController {
 		'Bars.id','Bars.name','Bars.slug','Bars.address','Bars.color','Bars.price','Bars.cover','Bars.enabled','Bars.ex_image_url',
 		'Bars.city_id','Bars.zone_id','Bars.category_id','Bars.franchise_id','Bars.lat','Bars.lng'
 	];
-	private $index_contains = ['BarsCategories','BarsFranchises'];
+	private $index_contains = ['BarsCities','BarsZones','BarsCategories','BarsFranchises'];
 
 	private $detail_fields = [
 		//Bar attributes
@@ -51,6 +51,18 @@ class BarsController extends AppController {
 		}
 	}
 
+	private function apply_bar_city(&$conds) {
+		if (array_key_exists('city', $this->request->query)) {
+			$conds['BarsCities.slug'] = $this->request->query['city'];
+		}
+	}
+
+	private function apply_bar_zone(&$conds) {
+		if (array_key_exists('zone', $this->request->query)) {
+			$conds['BarsZones.slug'] = $this->request->query['zone'];
+		}
+	}
+
 	private function apply_bar_q(&$conds) {
 		$q = $this->get_q();
 		$OR = [];
@@ -85,6 +97,7 @@ class BarsController extends AppController {
 		$conds = ['Bars.enabled' => 'TRUE'];
 		$this->apply_bar_category($conds);
 		$this->apply_bar_q($conds);
+		$this->apply_bar_zone($conds);
 		$this->log($conds);
 
 		$bars = $this->Bars->find()
@@ -95,7 +108,7 @@ class BarsController extends AppController {
 			$bars->select([
 				'count' => $bars->func()->count('*')
 			])->contain($this->index_contains);
-			
+
 		} else {
 
 			$bars->select($this->index_fields)
