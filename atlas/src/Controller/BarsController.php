@@ -63,6 +63,19 @@ class BarsController extends AppController {
 		}
 	}
 
+	private function apply_bar_genre(&$conds) {
+		$OR = [];
+		if (array_key_exists('genres', $this->request->query)) {
+			$genre_string = $this->request->query['genres'];
+			$genres = explode(',', $genre_string);
+			
+			foreach($genres as $g) {
+				$OR[]="FIND_IN_SET('$g', Bars.genre) > 0";
+			}
+		}
+		if (!empty($OR)) $conds['OR'] = $OR;
+	}
+
 	private function apply_bar_q(&$conds) {
 		$q = $this->get_q();
 		$OR = [];
@@ -103,6 +116,7 @@ class BarsController extends AppController {
 		$this->apply_bar_category($conds);
 		$this->apply_bar_q($conds);
 		$this->apply_bar_zone($conds);
+		$this->apply_bar_genre($conds);
 		$this->log($conds);
 
 		$bars = $this->Bars->find()
